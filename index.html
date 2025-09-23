@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JanSamadhan: The Smart Civic Grievance Solution</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .view {
+            display: none;
+        }
+
+        .view.active {
+            display: block;
+        }
+    </style>
+</head>
+
+<body class="bg-slate-50 text-slate-800">
+
+    <!-- Header -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <a href="#" class="text-2xl font-bold text-blue-600 nav-link" data-view="home">JanSamadhan</a>
+                </div>
+                <div class="hidden md:block">
+                    <div id="nav-menu-desktop" class="ml-10 flex items-baseline space-x-4">
+                        <a href="#" class="text-slate-600 hover:bg-slate-100 hover:text-slate-900 px-3 py-2 rounded-md text-sm font-medium nav-link" data-view="home">Home</a>
+                        <a href="#" class="text-slate-600 hover:bg-slate-100 hover:text-slate-900 px-3 py-2 rounded-md text-sm font-medium nav-link" data-view="submit">Submit Grievance</a>
+                        <a href="#" class="text-slate-600 hover:bg-slate-100 hover:text-slate-900 px-3 py-2 rounded-md text-sm font-medium nav-link" data-view="track">Track Status</a>
+                    </div>
+                     <div id="official-nav-menu-desktop" class="hidden ml-10 flex items-baseline space-x-4">
+                        <a href="#" class="text-slate-600 hover:bg-slate-100 hover:text-slate-900 px-3 py-2 rounded-md text-sm font-medium nav-link" data-view="official-dashboard">Dashboard</a>
+                        <a href="#" class="text-slate-600 hover:bg-slate-100 hover:text-slate-900 px-3 py-2 rounded-md text-sm font-medium">Analytics</a>
+                    </div>
+                </div>
+                <div class="hidden md:block">
+                     <div id="auth-container-desktop">
+                        <button id="login-btn-desktop" class="bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700">Login / Register</button>
+                    </div>
+                </div>
+                <div class="-mr-2 flex md:hidden">
+                    <button id="mobile-menu-button" type="button" class="bg-slate-100 inline-flex items-center justify-center p-2 rounded-md text-slate-500 hover:text-slate-800 hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-100 focus:ring-blue-500" aria-controls="mobile-menu" aria-expanded="false">
+                        <span class="sr-only">Open main menu</span>
+                        <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                        <svg class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </nav>
+        <div class="md:hidden hidden" id="mobile-menu">
+            <div id="nav-menu-mobile" class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#" class="text-slate-600 hover:bg-slate-100 hover:text-slate-900 block px-3 py-2 rounded-md text-base font-medium nav-link" data-view="home">Home</a>
+                <a href="#" class="text-slate-600 hover:bg-slate-100 hover:text-slate-900 block px-3 py-2 rounded-md text-base font-medium nav-link" data-view="submit">Submit Grievance</a>
+                <a href="#" class="text-slate-600 hover:bg-slate-100 hover:text-slate-900 block px-3 py-2 rounded-md text-base font-medium nav-link" data-view="track">Track Status</a>
+            </div>
+             <div id="official-nav-menu-mobile" class="hidden px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#" class="text-slate-600 hover:bg-slate-100 hover:text-slate-900 block px-3 py-2 rounded-md text-base font-medium nav-link" data-view="official-dashboard">Dashboard</a>
+                <a href="#" class="text-slate-600 hover:bg-slate-100 hover:text-slate-900 block px-3 py-2 rounded-md text-base font-medium">Analytics</a>
+            </div>
+            <div class="pt-4 pb-3 border-t border-slate-200">
+                <div id="auth-container-mobile" class="px-2">
+                    <button id="login-btn-mobile" class="w-full bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700">Login / Register</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto p-4 sm:p-6 lg:p-8">
+        <!-- Home View -->
+        <div id="home" class="view active">
+            <div class="text-center">
+                <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900">A New Era of Civic Engagement.</h1>
+                <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-600">Report issues, track their progress, and help build a better community with JanSamadhan, the smart grievance redressal platform.</p>
+                <div class="mt-8 flex justify-center gap-4">
+                    <button class="bg-blue-600 text-white px-8 py-3 rounded-md font-semibold hover:bg-blue-700 shadow-lg nav-link" data-view="submit">Report an Issue</button>
+                    <button class="bg-white text-slate-700 px-8 py-3 rounded-md font-semibold hover:bg-slate-100 border border-slate-300 shadow-lg nav-link" data-view="track">Track a Complaint</button>
+                </div>
+            </div>
+
+            <div class="mt-20">
+                <h2 class="text-3xl font-bold text-center text-slate-900">How It Works: A Simple 3-Step Process</h2>
+                <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                    <div class="bg-white p-8 rounded-lg shadow-md">
+                        <div class="flex items-center justify-center h-16 w-16 bg-blue-100 text-blue-600 rounded-full mx-auto text-2xl font-bold">1</div>
+                        <h3 class="mt-6 text-xl font-bold">Submit Your Grievance</h3>
+                        <p class="mt-2 text-slate-600">Use our simple form to report any civic issue. Choose to type or record your complaint, and upload evidence like photos or audio.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-lg shadow-md">
+                        <div class="flex items-center justify-center h-16 w-16 bg-blue-100 text-blue-600 rounded-full mx-auto text-2xl font-bold">2</div>
+                        <h3 class="mt-6 text-xl font-bold">Real-Time Tracking</h3>
+                        <p class="mt-2 text-slate-600">Receive a unique tracking ID to monitor your complaint's status from "Submitted" to "Resolved" with a visual timeline.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-lg shadow-md">
+                        <div class="flex items-center justify-center h-16 w-16 bg-blue-100 text-blue-600 rounded-full mx-auto text-2xl font-bold">3</div>
+                        <h3 class="mt-6 text-xl font-bold">Resolution & Feedback</h3>
+                        <p class="mt-2 text-slate-600">Once resolved, officials upload proof. You can then provide feedback or reopen the case if you're not satisfied.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Submit Grievance View -->
+        <div id="submit" class="view">
+            <div class="max-w-3xl mx-auto bg-white p-8 rounded-lg shadow-md">
+                <h2 class="text-3xl font-bold text-slate-900 mb-2">Report a Civic Issue</h2>
+                <p class="text-slate-600 mb-8">Please provide as much detail as possible to help us resolve the issue quickly.</p>
+
+                <form id="grievance-form" class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">How would you like to report?</label>
+                        <fieldset class="grid grid-cols-2 gap-4">
+                            <div>
+                                <input type="radio" id="report-type-text" name="report-type" value="text" class="hidden peer" checked>
+                                <label for="report-type-text" class="block w-full text-center p-3 border rounded-md cursor-pointer peer-checked:bg-blue-600 peer-checked:text-white peer-checked:border-blue-600">Type Complaint</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="report-type-voice" name="report-type" value="voice" class="hidden peer">
+                                <label for="report-type-voice" class="block w-full text-center p-3 border rounded-md cursor-pointer peer-checked:bg-blue-600 peer-checked:text-white peer-checked:border-blue-600">Record Voice Complaint</label>
+                            </div>
+                        </fieldset>
+                    </div>
+
+                    <div>
+                        <label for="category" class="block text-sm font-medium text-slate-700">Category of Issue</label>
+                        <select id="category" name="category" class="mt-1 block w-full border-slate-300 rounded-md focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                            <option>Waste Management</option>
+                            <option>Potholes / Road Damage</option>
+                            <option>Water Supply & Leakage</option>
+                            <option>Streetlight Not Working</option>
+                            <option>Illegal Construction</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+
+                    <div id="text-complaint-fields">
+                        <div>
+                            <label for="description" class="block text-sm font-medium text-slate-700">Description</label>
+                            <textarea id="description" name="description" rows="4" class="mt-1 block w-full border-slate-300 rounded-md focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="Describe the issue in detail..."></textarea>
+                        </div>
+                        <div>
+                            <label for="address" class="block text-sm font-medium text-slate-700">Address / Landmark</label>
+                            <textarea id="address" name="address" rows="2" class="mt-1 block w-full border-slate-300 rounded-md focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="Enter the full address or nearest landmark"></textarea>
+                        </div>
+                    </div>
+                    
+                    <div id="voice-complaint-fields" class="hidden">
+                        <div class="bg-blue-50 p-4 rounded-md border border-blue-200">
+                             <h4 class="font-medium text-blue-800">Report with your Voice</h4>
+                             <p class="text-sm text-blue-700 mt-1">Please record an audio file describing the issue and its location in your preferred language, then upload it below.</p>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="evidence" class="block text-sm font-medium text-slate-700">Upload Evidence (Photo/Video/Audio)</label>
+                        <div class="mt-2 flex justify-center px-6 pt-5 pb-6 border-2 border-slate-300 border-dashed rounded-md">
+                            <div class="space-y-1 text-center">
+                                <svg class="mx-auto h-12 w-12 text-slate-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+                                    <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                                <div class="flex text-sm text-slate-600">
+                                    <label for="file-upload" class="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500">
+                                        <span>Upload a file</span>
+                                        <input id="file-upload" name="file-upload" type="file" class="sr-only">
+                                    </label>
+                                    <p class="pl-1">or drag and drop</p>
+                                </div>
+                                <p class="text-xs text-slate-500">PNG, JPG, MP4, MP3, WAV up to 10MB</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Submit Grievance</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Track Status View -->
+        <div id="track" class="view">
+            <div class="max-w-xl mx-auto text-center">
+                <h2 class="text-3xl font-bold text-slate-900 mb-2">Track Your Grievance</h2>
+                <p class="text-slate-600 mb-8">Enter the tracking ID you received upon submission to see the latest status.</p>
+                <form id="track-form" class="flex gap-2">
+                    <input type="text" id="tracking-id-input" class="flex-grow border-slate-300 rounded-md focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="Enter your Tracking ID...">
+                    <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-md font-semibold hover:bg-blue-700">Track</button>
+                </form>
+            </div>
+
+            <div id="tracking-results" class="hidden max-w-3xl mx-auto mt-12 bg-white p-8 rounded-lg shadow-md">
+                <h3 class="text-2xl font-bold">Status for ID: <span id="display-tracking-id" class="text-blue-600"></span></h3>
+                <p class="text-slate-500 mt-1">Grievance Category: <span id="display-category" class="font-medium text-slate-700"></span></p>
+
+                <div class="mt-8">
+                    <!-- Timeline -->
+                    <ol class="relative border-l border-slate-200">
+                        <li class="mb-10 ml-6">
+                            <span class="absolute flex items-center justify-center w-6 h-6 bg-green-200 rounded-full -left-3 ring-8 ring-white">
+                                <svg class="w-3 h-3 text-green-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                            </span>
+                            <h4 class="flex items-center mb-1 text-lg font-semibold text-slate-900">Issue Resolved</h4>
+                            <time class="block mb-2 text-sm font-normal leading-none text-slate-400">September 23, 2025</time>
+                            <p class="text-base font-normal text-slate-500">The reported streetlight has been fixed. An image of the completed work has been uploaded by the official.</p>
+                        </li>
+                        <li class="mb-10 ml-6">
+                            <span class="absolute flex items-center justify-center w-6 h-6 bg-blue-200 rounded-full -left-3 ring-8 ring-white">
+                                <svg class="w-3 h-3 text-blue-600" fill="currentColor" viewBox="0 0 20 20"><path d="M2 10a8 8 0 1116 0 8 8 0 01-16 0zm10-3a1 1 0 00-2 0v2a1 1 0 00.293.707l1.414 1.414a1 1 0 001.414-1.414L11 10.586V7z"></path></svg>
+                            </span>
+                            <h4 class="mb-1 text-lg font-semibold text-slate-900">Work in Progress</h4>
+                            <time class="block mb-2 text-sm font-normal leading-none text-slate-400">September 22, 2025</time>
+                            <p class="text-base font-normal text-slate-500">A technician has been assigned and is expected to visit the site today.</p>
+                        </li>
+                        <li class="mb-10 ml-6">
+                            <span class="absolute flex items-center justify-center w-6 h-6 bg-blue-200 rounded-full -left-3 ring-8 ring-white">
+                                <svg class="w-3 h-3 text-blue-600" fill="currentColor" viewBox="0 0 20 20"><path d="M2 10a8 8 0 1116 0 8 8 0 01-16 0zm10-3a1 1 0 00-2 0v2a1 1 0 00.293.707l1.414 1.414a1 1 0 001.414-1.414L11 10.586V7z"></path></svg>
+                            </span>
+                             <h4 class="mb-1 text-lg font-semibold text-slate-900">Assigned to Officer</h4>
+                            <time class="block mb-2 text-sm font-normal leading-none text-slate-400">September 21, 2025</time>
+                            <p class="text-base font-normal text-slate-500">Your complaint has been reviewed and assigned to an officer in the Electrical Department.</p>
+                        </li>
+                         <li class="ml-6">
+                            <span class="absolute flex items-center justify-center w-6 h-6 bg-blue-200 rounded-full -left-3 ring-8 ring-white">
+                                <svg class="w-3 h-3 text-blue-600" fill="currentColor" viewBox="0 0 20 20"><path d="M2 10a8 8 0 1116 0 8 8 0 01-16 0zm10-3a1 1 0 00-2 0v2a1 1 0 00.293.707l1.414 1.414a1 1 0 001.414-1.414L11 10.586V7z"></path></svg>
+                            </span>
+                             <h4 class="mb-1 text-lg font-semibold text-slate-900">Grievance Submitted</h4>
+                            <time class="block mb-2 text-sm font-normal leading-none text-slate-400">September 21, 2025</time>
+                            <p class="text-base font-normal text-slate-500">We have received your complaint and will process it shortly.</p>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- Official Dashboard View -->
+        <div id="official-dashboard" class="view">
+            <h2 class="text-3xl font-bold text-slate-900 mb-6">Official Dashboard</h2>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-xl font-semibold mb-4">Incoming Grievances</h3>
+                 <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-slate-200">
+                        <thead class="bg-slate-50">
+                            <tr>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">ID</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Category</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Location</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Status</th>
+                                <th scope="col" class="relative px-6 py-3"><span class="sr-only">View</span></th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-slate-200">
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900">JSD-98754</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500">Potholes</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500">Main St. & 2nd Ave</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm"><span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">New</span></td>
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"><a href="#" class="text-blue-600 hover:text-blue-900">View</a></td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900">JSD-98753</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500">Water Leakage</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500">Park Road, near City Hall</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm"><span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">In Progress</span></td>
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"><a href="#" class="text-blue-600 hover:text-blue-900">View</a></td>
+                            </tr>
+                             <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900">JSD-98751</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500">Streetlight</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500">Opp. Central Library</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm"><span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Resolved</span></td>
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"><a href="#" class="text-blue-600 hover:text-blue-900">View</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal System -->
+    <!-- Auth Modal -->
+    <div id="auth-modal" class="hidden fixed z-50 inset-0 overflow-y-auto">
+        <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+            <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <div class="sm:flex sm:items-start">
+                        <div class="mt-3 text-center sm:mt-0 sm:text-left w-full">
+                            <h3 class="text-2xl leading-6 font-bold text-gray-900" id="modal-title">Login or Register</h3>
+                            <div class="mt-4">
+                                <form id="login-form">
+                                    <div class="mb-4">
+                                        <label class="block text-sm font-medium text-slate-700 mb-2">I am a:</label>
+                                        <fieldset class="grid grid-cols-2 gap-4">
+                                            <div>
+                                                <input type="radio" id="role-civilian" name="role" value="civilian" class="hidden peer" checked>
+                                                <label for="role-civilian" class="block w-full text-center p-3 border rounded-md cursor-pointer peer-checked:bg-blue-600 peer-checked:text-white peer-checked:border-blue-600">Civilian</label>
+                                            </div>
+                                            <div>
+                                                <input type="radio" id="role-official" name="role" value="official" class="hidden peer">
+                                                <label for="role-official" class="block w-full text-center p-3 border rounded-md cursor-pointer peer-checked:bg-blue-600 peer-checked:text-white peer-checked:border-blue-600">Official</label>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                    <!-- ID Input -->
+                                    <div class="mt-4">
+                                        <label for="login-id" class="block text-sm font-medium text-slate-700">ID / Mobile Number</label>
+                                        <input type="text" id="login-id" class="mt-1 block w-full border-slate-300 rounded-md focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="e.g., 9876543210 or GOVT123" required>
+                                        <p id="id-helper-text" class="mt-1 text-xs text-blue-600 font-medium h-4"></p>
+                                    </div>
+
+                                    <!-- Password Input -->
+                                    <div class="mt-4">
+                                        <label for="login-password" class="block text-sm font-medium text-slate-700">Password</label>
+                                        <input type="password" id="login-password" class="mt-1 block w-full border-slate-300 rounded-md focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="••••••" required>
+                                        <p class="mt-1 text-xs text-slate-500">type any six numbers</p>
+                                    </div>
+                                    <p id="login-error" class="text-red-500 text-sm mt-2"></p>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                    <button id="submit-login-btn" type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm">
+                        Login
+                    </button>
+                    <button id="cancel-login-btn" type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Generic Message Modal -->
+    <div id="message-modal" class="hidden fixed z-50 inset-0 overflow-y-auto">
+        <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+            <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <div class="sm:flex sm:items-start">
+                        <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-green-100 sm:mx-0 sm:h-10 sm:w-10">
+                            <svg class="h-6 w-6 text-green-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                        </div>
+                        <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                            <h3 class="text-lg leading-6 font-medium text-gray-900" id="message-title">Success</h3>
+                            <div class="mt-2">
+                                <p class="text-sm text-gray-500" id="message-text">Your grievance has been submitted.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                    <button id="message-ok-btn" type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm">
+                        OK
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // State
+            let loggedInUser = null; // { id: '...', role: 'civilian'/'official' }
+
+            // View and Navigation Elements
+            const views = document.querySelectorAll('.view');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            // Form Elements
+            const grievanceForm = document.getElementById('grievance-form');
+            const trackForm = document.getElementById('track-form');
+            const trackingResults = document.getElementById('tracking-results');
+            const displayTrackingId = document.getElementById('display-tracking-id');
+            const displayCategory = document.getElementById('display-category');
+
+            // Report Type Elements
+            const reportTypeTextRadio = document.getElementById('report-type-text');
+            const reportTypeVoiceRadio = document.getElementById('report-type-voice');
+            const textComplaintFields = document.getElementById('text-complaint-fields');
+            const voiceComplaintFields = document.getElementById('voice-complaint-fields');
+
+            // Modal Elements
+            const authModal = document.getElementById('auth-modal');
+            const messageModal = document.getElementById('message-modal');
+            const messageTitle = document.getElementById('message-title');
+            const messageText = document.getElementById('message-text');
+            const messageOkBtn = document.getElementById('message-ok-btn');
+
+            // Auth Elements
+            const loginBtnDesktop = document.getElementById('login-btn-desktop');
+            const loginBtnMobile = document.getElementById('login-btn-mobile');
+            const cancelLoginBtn = document.getElementById('cancel-login-btn');
+            const submitLoginBtn = document.getElementById('submit-login-btn');
+            const loginForm = document.getElementById('login-form');
+            const loginIdInput = document.getElementById('login-id');
+            const loginPasswordInput = document.getElementById('login-password');
+            const loginError = document.getElementById('login-error');
+            const loginRoleRadios = document.querySelectorAll('input[name="role"]');
+            const idHelperText = document.getElementById('id-helper-text');
+            
+            const authContainerDesktop = document.getElementById('auth-container-desktop');
+            const authContainerMobile = document.getElementById('auth-container-mobile');
+            const navMenuDesktop = document.getElementById('nav-menu-desktop');
+            const navMenuMobile = document.getElementById('nav-menu-mobile');
+            const officialNavMenuDesktop = document.getElementById('official-nav-menu-desktop');
+            const officialNavMenuMobile = document.getElementById('official-nav-menu-mobile');
+
+            // --- UI Navigation ---
+            function showView(viewId) {
+                views.forEach(view => {
+                    if (view.id === viewId) {
+                        view.classList.add('active');
+                    } else {
+                        view.classList.remove('active');
+                    }
+                });
+                window.scrollTo(0, 0);
+            }
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const viewId = link.getAttribute('data-view');
+                    if (viewId) {
+                        showView(viewId);
+                    }
+                    if (mobileMenu.classList.contains('hidden') === false) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                });
+            });
+
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // --- Form Logic ---
+            grievanceForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const trackingId = `JSD-${Math.floor(10000 + Math.random() * 90000)}`;
+                showMessage('Grievance Submitted!', `Your tracking ID is ${trackingId}. Please save it for future reference.`);
+                grievanceForm.reset();
+                showView('home');
+            });
+
+            trackForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const trackingId = document.getElementById('tracking-id-input').value;
+                if (trackingId) {
+                    displayTrackingId.textContent = trackingId;
+                    displayCategory.textContent = 'Streetlight Not Working'; // Dummy data
+                    trackingResults.classList.remove('hidden');
+                }
+            });
+
+            // --- Complaint Type Toggle ---
+            reportTypeTextRadio.addEventListener('change', () => {
+                if (reportTypeTextRadio.checked) {
+                    textComplaintFields.classList.remove('hidden');
+                    voiceComplaintFields.classList.add('hidden');
+                }
+            });
+            reportTypeVoiceRadio.addEventListener('change', () => {
+                if (reportTypeVoiceRadio.checked) {
+                    textComplaintFields.classList.add('hidden');
+                    voiceComplaintFields.classList.remove('hidden');
+                }
+            });
+
+            // --- Authentication Logic ---
+            loginRoleRadios.forEach(radio => {
+                radio.addEventListener('change', () => {
+                    const selectedRole = document.querySelector('input[name="role"]:checked').value;
+                    if (selectedRole === 'official') {
+                        idHelperText.textContent = 'For prototype, please use ID: GOVT123';
+                    } else {
+                        idHelperText.textContent = '';
+                    }
+                });
+            });
+
+            function openAuthModal() {
+                authModal.classList.remove('hidden');
+                loginForm.reset();
+                loginError.textContent = '';
+                idHelperText.textContent = '';
+                loginIdInput.focus();
+            }
+
+            function closeAuthModal() {
+                authModal.classList.add('hidden');
+            }
+
+            function handleLogin() {
+                const id = loginIdInput.value;
+                const password = loginPasswordInput.value;
+                const role = document.querySelector('input[name="role"]:checked').value;
+
+                loginError.textContent = '';
+                
+                // Password validation: must be 6 digits
+                if (!/^\d{6}$/.test(password)) {
+                    loginError.textContent = 'Password must be exactly 6 numbers.';
+                    return;
+                }
+
+                // Official Login
+                if (role === 'official') {
+                    if (id === 'GOVT123') {
+                        loggedInUser = { id, role: 'official' };
+                        updateUIForLogin();
+                        closeAuthModal();
+                    } else {
+                        loginError.textContent = 'Invalid Official ID.';
+                    }
+                // Civilian Login
+                } else {
+                     if (/^\d{10}$/.test(id)) {
+                        loggedInUser = { id, role: 'civilian' };
+                        updateUIForLogin();
+                        closeAuthModal();
+                    } else {
+                        loginError.textContent = 'Civilian ID must be a 10-digit mobile number.';
+                    }
+                }
+            }
+            
+            function handleLogout() {
+                loggedInUser = null;
+                updateUIForLogin();
+            }
+
+            function updateUIForLogin() {
+                authContainerDesktop.innerHTML = '';
+                authContainerMobile.innerHTML = '';
+
+                if (loggedInUser) {
+                    const welcomeMessage = loggedInUser.role === 'official' ? 'Official' : loggedInUser.id;
+                    const loggedInHTML = `
+                        <div class="flex items-center">
+                            <span class="text-sm font-medium text-slate-700 mr-4">Welcome, ${welcomeMessage}</span>
+                            <button id="logout-btn" class="bg-slate-200 text-slate-800 px-4 py-2 rounded-md text-sm font-medium hover:bg-slate-300">Logout</button>
+                        </div>`;
+                    authContainerDesktop.innerHTML = loggedInHTML;
+                    authContainerMobile.innerHTML = loggedInHTML.replace('mr-4', 'mb-2 w-full'); // Mobile styling
+                    
+                    document.getElementById('logout-btn').addEventListener('click', handleLogout);
+                     if(authContainerMobile.querySelector('#logout-btn')) { // ensure it exists before adding listener
+                        authContainerMobile.querySelector('#logout-btn').addEventListener('click', handleLogout);
+                    }
+
+                    if (loggedInUser.role === 'official') {
+                        navMenuDesktop.classList.add('hidden');
+                        navMenuMobile.classList.add('hidden');
+                        officialNavMenuDesktop.classList.remove('hidden');
+                        officialNavMenuMobile.classList.remove('hidden');
+                        showView('official-dashboard');
+                    } else {
+                        navMenuDesktop.classList.remove('hidden');
+                        navMenuMobile.classList.remove('hidden');
+                        officialNavMenuDesktop.classList.add('hidden');
+                        officialNavMenuMobile.classList.add('hidden');
+                        showView('home');
+                    }
+
+                } else {
+                    const loggedOutHTML = `<button id="login-btn" class="w-full md:w-auto bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700">Login / Register</button>`;
+                    authContainerDesktop.innerHTML = loggedOutHTML;
+                    authContainerMobile.innerHTML = loggedOutHTML;
+                    
+                    authContainerDesktop.querySelector('#login-btn').addEventListener('click', openAuthModal);
+                    authContainerMobile.querySelector('#login-btn').addEventListener('click', openAuthModal);
+                    
+                    navMenuDesktop.classList.remove('hidden');
+                    navMenuMobile.classList.remove('hidden');
+                    officialNavMenuDesktop.classList.add('hidden');
+                    officialNavMenuMobile.classList.add('hidden');
+                    showView('home');
+                }
+            }
+
+
+            loginBtnDesktop.addEventListener('click', openAuthModal);
+            loginBtnMobile.addEventListener('click', openAuthModal);
+            cancelLoginBtn.addEventListener('click', closeAuthModal);
+            submitLoginBtn.addEventListener('click', handleLogin);
+            loginForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                handleLogin();
+            });
+
+
+            // --- Message Modal ---
+            function showMessage(title, text) {
+                messageTitle.textContent = title;
+                messageText.textContent = text;
+                messageModal.classList.remove('hidden');
+            }
+
+            messageOkBtn.addEventListener('click', () => {
+                messageModal.classList.add('hidden');
+            });
+        });
+    </script>
+
+</body>
+</html>
+
