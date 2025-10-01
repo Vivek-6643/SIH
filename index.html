@@ -1,632 +1,1277 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JanSamadhan: The Smart Civic Grievance Solution</title>
+    <title>Prashiskshan - Academia-Industry Interface</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
         }
-
-        .view {
+        .sidebar-link {
+            transition: all 0.2s ease-in-out;
+        }
+        .sidebar-link:hover, .sidebar-link.active {
+            background-color: #1e40af;
+            color: white;
+        }
+        .kanban-column {
+            min-width: 280px;
+        }
+        /* Custom scrollbar for better aesthetics */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+        .hidden {
             display: none;
-        }
-
-        .view.active {
-            display: block;
         }
     </style>
 </head>
+<body>
+    <!-- Main Application Container -->
+    <div id="app" class="h-screen w-screen flex flex-col">
 
-<body class="bg-slate-50 text-slate-800">
-
-    <!-- Header -->
-    <header class="bg-white shadow-md sticky top-0 z-50">
-        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
-                <div class="flex-shrink-0">
-                    <a href="#" class="text-2xl font-bold text-blue-600 nav-link" data-view="home">JanSamadhan</a>
-                </div>
-                <div class="hidden md:block">
-                    <div id="nav-menu-desktop" class="ml-10 flex items-baseline space-x-4">
-                        <a href="#" class="text-slate-600 hover:bg-slate-100 hover:text-slate-900 px-3 py-2 rounded-md text-sm font-medium nav-link" data-view="home">Home</a>
-                        <a href="#" class="text-slate-600 hover:bg-slate-100 hover:text-slate-900 px-3 py-2 rounded-md text-sm font-medium nav-link" data-view="submit">Submit Grievance</a>
-                        <a href="#" class="text-slate-600 hover:bg-slate-100 hover:text-slate-900 px-3 py-2 rounded-md text-sm font-medium nav-link" data-view="track">Track Status</a>
-                    </div>
-                     <div id="official-nav-menu-desktop" class="hidden ml-10 flex items-baseline space-x-4">
-                        <a href="#" class="text-slate-600 hover:bg-slate-100 hover:text-slate-900 px-3 py-2 rounded-md text-sm font-medium nav-link" data-view="official-dashboard">Dashboard</a>
-                        <a href="#" class="text-slate-600 hover:bg-slate-100 hover:text-slate-900 px-3 py-2 rounded-md text-sm font-medium">Analytics</a>
-                    </div>
-                </div>
-                <div class="hidden md:block">
-                     <div id="auth-container-desktop">
-                        <button id="login-btn-desktop" class="bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700">Login / Register</button>
-                    </div>
-                </div>
-                <div class="-mr-2 flex md:hidden">
-                    <button id="mobile-menu-button" type="button" class="bg-slate-100 inline-flex items-center justify-center p-2 rounded-md text-slate-500 hover:text-slate-800 hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-100 focus:ring-blue-500" aria-controls="mobile-menu" aria-expanded="false">
-                        <span class="sr-only">Open main menu</span>
-                        <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                        </svg>
-                        <svg class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
+        <!-- Login Screen -->
+        <div id="login-screen" class="flex items-center justify-center h-full bg-gradient-to-br from-blue-700 to-indigo-900">
+            <div class="bg-white p-10 rounded-2xl shadow-2xl text-center w-full max-w-md mx-4">
+                <h1 class="text-4xl font-bold text-blue-800 mb-2">Prashiskshan</h1>
+                <p class="text-gray-500 mb-2">Your Gateway to Industry Excellence</p>
+                <p class="text-xs text-gray-400 italic mb-8">this is for prototype purpose only, more data and features will be added during development.</p>
+                <div class="space-y-4">
+                    <button onclick="login('student')" class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-300 transform hover:scale-105 flex items-center justify-center gap-2">
+                        <i class="fas fa-user-graduate"></i> Student Login
+                    </button>
+                    <button onclick="login('industry')" class="w-full bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition duration-300 transform hover:scale-105 flex items-center justify-center gap-2">
+                        <i class="fas fa-building"></i> Industry Login
+                    </button>
+                    <button onclick="login('faculty')" class="w-full bg-gray-600 text-white py-3 rounded-lg font-semibold hover:bg-gray-700 transition duration-300 transform hover:scale-105 flex items-center justify-center gap-2">
+                        <i class="fas fa-chalkboard-teacher"></i> Faculty / Admin Login
+                    </button>
+                    <button onclick="login('alumni')" class="w-full bg-orange-500 text-white py-3 rounded-lg font-semibold hover:bg-orange-600 transition duration-300 transform hover:scale-105 flex items-center justify-center gap-2">
+                        <i class="fas fa-handshake"></i> Alumni Login
                     </button>
                 </div>
             </div>
-        </nav>
-        <div class="md:hidden hidden" id="mobile-menu">
-            <div id="nav-menu-mobile" class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                <a href="#" class="text-slate-600 hover:bg-slate-100 hover:text-slate-900 block px-3 py-2 rounded-md text-base font-medium nav-link" data-view="home">Home</a>
-                <a href="#" class="text-slate-600 hover:bg-slate-100 hover:text-slate-900 block px-3 py-2 rounded-md text-base font-medium nav-link" data-view="submit">Submit Grievance</a>
-                <a href="#" class="text-slate-600 hover:bg-slate-100 hover:text-slate-900 block px-3 py-2 rounded-md text-base font-medium nav-link" data-view="track">Track Status</a>
-            </div>
-             <div id="official-nav-menu-mobile" class="hidden px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                <a href="#" class="text-slate-600 hover:bg-slate-100 hover:text-slate-900 block px-3 py-2 rounded-md text-base font-medium nav-link" data-view="official-dashboard">Dashboard</a>
-                <a href="#" class="text-slate-600 hover:bg-slate-100 hover:text-slate-900 block px-3 py-2 rounded-md text-base font-medium">Analytics</a>
-            </div>
-            <div class="pt-4 pb-3 border-t border-slate-200">
-                <div id="auth-container-mobile" class="px-2">
-                    <button id="login-btn-mobile" class="w-full bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700">Login / Register</button>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <!-- Main Content -->
-    <main class="container mx-auto p-4 sm:p-6 lg:p-8">
-        <!-- Home View -->
-        <div id="home" class="view active">
-            <div class="text-center">
-                <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900">A New Era of Civic Engagement.</h1>
-                <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-600">Report issues, track their progress, and help build a better community with JanSamadhan, the smart grievance redressal platform.</p>
-                <div class="mt-8 flex justify-center gap-4">
-                    <button class="bg-blue-600 text-white px-8 py-3 rounded-md font-semibold hover:bg-blue-700 shadow-lg nav-link" data-view="submit">Report an Issue</button>
-                    <button class="bg-white text-slate-700 px-8 py-3 rounded-md font-semibold hover:bg-slate-100 border border-slate-300 shadow-lg nav-link" data-view="track">Track a Complaint</button>
-                </div>
-            </div>
-
-            <div class="mt-20">
-                <h2 class="text-3xl font-bold text-center text-slate-900">How It Works: A Simple 3-Step Process</h2>
-                <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-                    <div class="bg-white p-8 rounded-lg shadow-md">
-                        <div class="flex items-center justify-center h-16 w-16 bg-blue-100 text-blue-600 rounded-full mx-auto text-2xl font-bold">1</div>
-                        <h3 class="mt-6 text-xl font-bold">Submit Your Grievance</h3>
-                        <p class="mt-2 text-slate-600">Use our simple form to report any civic issue. Choose to type or record your complaint, and upload evidence like photos or audio.</p>
-                    </div>
-                    <div class="bg-white p-8 rounded-lg shadow-md">
-                        <div class="flex items-center justify-center h-16 w-16 bg-blue-100 text-blue-600 rounded-full mx-auto text-2xl font-bold">2</div>
-                        <h3 class="mt-6 text-xl font-bold">Real-Time Tracking</h3>
-                        <p class="mt-2 text-slate-600">Receive a unique tracking ID to monitor your complaint's status from "Submitted" to "Resolved" with a visual timeline.</p>
-                    </div>
-                    <div class="bg-white p-8 rounded-lg shadow-md">
-                        <div class="flex items-center justify-center h-16 w-16 bg-blue-100 text-blue-600 rounded-full mx-auto text-2xl font-bold">3</div>
-                        <h3 class="mt-6 text-xl font-bold">Resolution & Feedback</h3>
-                        <p class="mt-2 text-slate-600">Once resolved, officials upload proof. You can then provide feedback or reopen the case if you're not satisfied.</p>
-                    </div>
-                </div>
-            </div>
         </div>
 
-        <!-- Submit Grievance View -->
-        <div id="submit" class="view">
-            <div class="max-w-3xl mx-auto bg-white p-8 rounded-lg shadow-md">
-                <h2 class="text-3xl font-bold text-slate-900 mb-2">Report a Civic Issue</h2>
-                <p class="text-slate-600 mb-8">Please provide as much detail as possible to help us resolve the issue quickly.</p>
-
-                <form id="grievance-form" class="space-y-6">
-                    <div>
-                        <label class="block text-sm font-medium text-slate-700 mb-2">How would you like to report?</label>
-                        <fieldset class="grid grid-cols-2 gap-4">
-                            <div>
-                                <input type="radio" id="report-type-text" name="report-type" value="text" class="hidden peer" checked>
-                                <label for="report-type-text" class="block w-full text-center p-3 border rounded-md cursor-pointer peer-checked:bg-blue-600 peer-checked:text-white peer-checked:border-blue-600">Type Complaint</label>
-                            </div>
-                            <div>
-                                <input type="radio" id="report-type-voice" name="report-type" value="voice" class="hidden peer">
-                                <label for="report-type-voice" class="block w-full text-center p-3 border rounded-md cursor-pointer peer-checked:bg-blue-600 peer-checked:text-white peer-checked:border-blue-600">Record Voice Complaint</label>
-                            </div>
-                        </fieldset>
-                    </div>
-
-                    <div>
-                        <label for="category" class="block text-sm font-medium text-slate-700">Category of Issue</label>
-                        <select id="category" name="category" class="mt-1 block w-full border-slate-300 rounded-md focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                            <option>Waste Management</option>
-                            <option>Potholes / Road Damage</option>
-                            <option>Water Supply & Leakage</option>
-                            <option>Streetlight Not Working</option>
-                            <option>Illegal Construction</option>
-                            <option>Other</option>
-                        </select>
-                    </div>
-
-                    <div id="text-complaint-fields">
-                        <div>
-                            <label for="description" class="block text-sm font-medium text-slate-700">Description</label>
-                            <textarea id="description" name="description" rows="4" class="mt-1 block w-full border-slate-300 rounded-md focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="Describe the issue in detail..."></textarea>
-                        </div>
-                        <div>
-                            <label for="address" class="block text-sm font-medium text-slate-700">Address / Landmark</label>
-                            <textarea id="address" name="address" rows="2" class="mt-1 block w-full border-slate-300 rounded-md focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="Enter the full address or nearest landmark"></textarea>
-                        </div>
-                    </div>
-                    
-                    <div id="voice-complaint-fields" class="hidden">
-                        <div class="bg-blue-50 p-4 rounded-md border border-blue-200">
-                             <h4 class="font-medium text-blue-800">Report with your Voice</h4>
-                             <p class="text-sm text-blue-700 mt-1">Please record an audio file describing the issue and its location in your preferred language, then upload it below.</p>
-                        </div>
-                    </div>
-
-                    <div>
-                        <label for="evidence" class="block text-sm font-medium text-slate-700">Upload Evidence (Photo/Video/Audio)</label>
-                        <div class="mt-2 flex justify-center px-6 pt-5 pb-6 border-2 border-slate-300 border-dashed rounded-md">
-                            <div class="space-y-1 text-center">
-                                <svg class="mx-auto h-12 w-12 text-slate-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
-                                    <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                </svg>
-                                <div class="flex text-sm text-slate-600">
-                                    <label for="file-upload" class="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500">
-                                        <span>Upload a file</span>
-                                        <input id="file-upload" name="file-upload" type="file" class="sr-only">
-                                    </label>
-                                    <p class="pl-1">or drag and drop</p>
+        <!-- Main Dashboard -->
+        <div id="dashboard" class="hidden flex h-full">
+            <!-- Sidebar -->
+            <aside id="sidebar" class="bg-blue-800 text-gray-200 w-64 space-y-6 py-7 px-2 absolute inset-y-0 left-0 transform -translate-x-full md:relative md:translate-x-0 transition duration-200 ease-in-out flex flex-col justify-between">
+                <div>
+                    <a href="#" class="text-white flex items-center space-x-2 px-4 mb-8">
+                        <i class="fas fa-cogs text-2xl"></i>
+                        <span class="text-2xl font-extrabold">Prashiskshan</span>
+                    </a>
+                    <nav id="nav-links">
+                        <!-- Links will be populated by JS -->
+                    </nav>
+                </div>
+                <div class="px-4">
+                     <button onclick="showLogin()" class="w-full text-left bg-blue-700 py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-300 flex items-center gap-2">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+            </aside>
+            
+            <!-- Main Content -->
+            <main class="flex-1 flex flex-col">
+                <header class="bg-white shadow-sm p-4 flex justify-between items-center">
+                    <button id="menu-button" class="md:hidden">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                    <h1 id="header-title" class="text-2xl font-bold text-gray-800">Dashboard</h1>
+                    <div class="flex items-center gap-4">
+                        <span id="user-welcome" class="text-gray-600 font-medium">Welcome, User!</span>
+                        <!-- Notification Dropdown -->
+                        <div class="relative">
+                            <button id="notification-button" class="relative">
+                                <i class="fas fa-bell text-xl text-gray-600"></i>
+                                <span id="notification-badge" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">3</span>
+                            </button>
+                            <div id="notification-panel" class="hidden absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-xl overflow-hidden z-20">
+                                <div class="py-2 px-4 text-sm font-semibold text-gray-700 border-b">Notifications</div>
+                                <div id="notification-list" class="divide-y max-h-80 overflow-y-auto">
+                                    <!-- Notifications will be injected here by JS -->
                                 </div>
-                                <p class="text-xs text-slate-500">PNG, JPG, MP4, MP3, WAV up to 10MB</p>
+                                <a href="#" class="block bg-gray-50 text-center text-blue-600 py-2 text-sm font-semibold hover:bg-gray-100">View all notifications</a>
                             </div>
                         </div>
+                        <img src="https://placehold.co/40x40/E2E8F0/4A5568?text=P" alt="Profile" class="rounded-full">
                     </div>
-
-                    <div>
-                        <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Submit Grievance</button>
-                    </div>
-                </form>
-            </div>
+                </header>
+                <div id="content-area" class="flex-1 p-6 overflow-y-auto bg-gray-100">
+                    <!-- Dynamic content goes here -->
+                </div>
+            </main>
         </div>
 
-        <!-- Track Status View -->
-        <div id="track" class="view">
-            <div class="max-w-xl mx-auto text-center">
-                <h2 class="text-3xl font-bold text-slate-900 mb-2">Track Your Grievance</h2>
-                <p class="text-slate-600 mb-8">Enter the tracking ID you received upon submission to see the latest status.</p>
-                <form id="track-form" class="flex gap-2">
-                    <input type="text" id="tracking-id-input" class="flex-grow border-slate-300 rounded-md focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="Enter your Tracking ID...">
-                    <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-md font-semibold hover:bg-blue-700">Track</button>
-                </form>
-            </div>
-
-            <div id="tracking-results" class="hidden max-w-3xl mx-auto mt-12 bg-white p-8 rounded-lg shadow-md">
-                <h3 class="text-2xl font-bold">Status for ID: <span id="display-tracking-id" class="text-blue-600"></span></h3>
-                <p class="text-slate-500 mt-1">Grievance Category: <span id="display-category" class="font-medium text-slate-700"></span></p>
-
-                <div class="mt-8">
-                    <!-- Timeline -->
-                    <ol class="relative border-l border-slate-200">
-                        <li class="mb-10 ml-6">
-                            <span class="absolute flex items-center justify-center w-6 h-6 bg-green-200 rounded-full -left-3 ring-8 ring-white">
-                                <svg class="w-3 h-3 text-green-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-                            </span>
-                            <h4 class="flex items-center mb-1 text-lg font-semibold text-slate-900">Issue Resolved</h4>
-                            <time class="block mb-2 text-sm font-normal leading-none text-slate-400">September 23, 2025</time>
-                            <p class="text-base font-normal text-slate-500">The reported streetlight has been fixed. An image of the completed work has been uploaded by the official.</p>
-                        </li>
-                        <li class="mb-10 ml-6">
-                            <span class="absolute flex items-center justify-center w-6 h-6 bg-blue-200 rounded-full -left-3 ring-8 ring-white">
-                                <svg class="w-3 h-3 text-blue-600" fill="currentColor" viewBox="0 0 20 20"><path d="M2 10a8 8 0 1116 0 8 8 0 01-16 0zm10-3a1 1 0 00-2 0v2a1 1 0 00.293.707l1.414 1.414a1 1 0 001.414-1.414L11 10.586V7z"></path></svg>
-                            </span>
-                            <h4 class="mb-1 text-lg font-semibold text-slate-900">Work in Progress</h4>
-                            <time class="block mb-2 text-sm font-normal leading-none text-slate-400">September 22, 2025</time>
-                            <p class="text-base font-normal text-slate-500">A technician has been assigned and is expected to visit the site today.</p>
-                        </li>
-                        <li class="mb-10 ml-6">
-                            <span class="absolute flex items-center justify-center w-6 h-6 bg-blue-200 rounded-full -left-3 ring-8 ring-white">
-                                <svg class="w-3 h-3 text-blue-600" fill="currentColor" viewBox="0 0 20 20"><path d="M2 10a8 8 0 1116 0 8 8 0 01-16 0zm10-3a1 1 0 00-2 0v2a1 1 0 00.293.707l1.414 1.414a1 1 0 001.414-1.414L11 10.586V7z"></path></svg>
-                            </span>
-                             <h4 class="mb-1 text-lg font-semibold text-slate-900">Assigned to Officer</h4>
-                            <time class="block mb-2 text-sm font-normal leading-none text-slate-400">September 21, 2025</time>
-                            <p class="text-base font-normal text-slate-500">Your complaint has been reviewed and assigned to an officer in the Electrical Department.</p>
-                        </li>
-                         <li class="ml-6">
-                            <span class="absolute flex items-center justify-center w-6 h-6 bg-blue-200 rounded-full -left-3 ring-8 ring-white">
-                                <svg class="w-3 h-3 text-blue-600" fill="currentColor" viewBox="0 0 20 20"><path d="M2 10a8 8 0 1116 0 8 8 0 01-16 0zm10-3a1 1 0 00-2 0v2a1 1 0 00.293.707l1.414 1.414a1 1 0 001.414-1.414L11 10.586V7z"></path></svg>
-                            </span>
-                             <h4 class="mb-1 text-lg font-semibold text-slate-900">Grievance Submitted</h4>
-                            <time class="block mb-2 text-sm font-normal leading-none text-slate-400">September 21, 2025</time>
-                            <p class="text-base font-normal text-slate-500">We have received your complaint and will process it shortly.</p>
-                        </li>
-                    </ol>
-                </div>
-            </div>
-        </div>
-
-        <!-- Official Dashboard View -->
-        <div id="official-dashboard" class="view">
-            <h2 class="text-3xl font-bold text-slate-900 mb-6">Official Dashboard</h2>
-            <div class="bg-white p-6 rounded-lg shadow-md">
-                <h3 class="text-xl font-semibold mb-4">Incoming Grievances</h3>
-                 <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y divide-slate-200">
-                        <thead class="bg-slate-50">
-                            <tr>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">ID</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Category</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Location</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Status</th>
-                                <th scope="col" class="relative px-6 py-3"><span class="sr-only">View</span></th>
-                            </tr>
-                        </thead>
-                        <tbody class="bg-white divide-y divide-slate-200">
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900">JSD-98754</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500">Potholes</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500">Main St. & 2nd Ave</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm"><span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">New</span></td>
-                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"><a href="#" class="text-blue-600 hover:text-blue-900">View</a></td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900">JSD-98753</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500">Water Leakage</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500">Park Road, near City Hall</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm"><span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">In Progress</span></td>
-                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"><a href="#" class="text-blue-600 hover:text-blue-900">View</a></td>
-                            </tr>
-                             <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900">JSD-98751</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500">Streetlight</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500">Opp. Central Library</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm"><span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Resolved</span></td>
-                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"><a href="#" class="text-blue-600 hover:text-blue-900">View</a></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <!-- Modal System -->
-    <!-- Auth Modal -->
-    <div id="auth-modal" class="hidden fixed z-50 inset-0 overflow-y-auto">
-        <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
-            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-            <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                    <div class="sm:flex sm:items-start">
-                        <div class="mt-3 text-center sm:mt-0 sm:text-left w-full">
-                            <h3 class="text-2xl leading-6 font-bold text-gray-900" id="modal-title">Login or Register</h3>
-                            <div class="mt-4">
-                                <form id="login-form">
-                                    <div class="mb-4">
-                                        <label class="block text-sm font-medium text-slate-700 mb-2">I am a:</label>
-                                        <fieldset class="grid grid-cols-2 gap-4">
-                                            <div>
-                                                <input type="radio" id="role-civilian" name="role" value="civilian" class="hidden peer" checked>
-                                                <label for="role-civilian" class="block w-full text-center p-3 border rounded-md cursor-pointer peer-checked:bg-blue-600 peer-checked:text-white peer-checked:border-blue-600">Civilian</label>
-                                            </div>
-                                            <div>
-                                                <input type="radio" id="role-official" name="role" value="official" class="hidden peer">
-                                                <label for="role-official" class="block w-full text-center p-3 border rounded-md cursor-pointer peer-checked:bg-blue-600 peer-checked:text-white peer-checked:border-blue-600">Official</label>
-                                            </div>
-                                        </fieldset>
-                                    </div>
-                                    <!-- ID Input -->
-                                    <div class="mt-4">
-                                        <label for="login-id" class="block text-sm font-medium text-slate-700">ID / Mobile Number</label>
-                                        <input type="text" id="login-id" class="mt-1 block w-full border-slate-300 rounded-md focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="e.g., 9876543210 or GOVT123" required>
-                                        <p id="id-helper-text" class="mt-1 text-xs text-blue-600 font-medium h-4"></p>
-                                    </div>
-
-                                    <!-- Password Input -->
-                                    <div class="mt-4">
-                                        <label for="login-password" class="block text-sm font-medium text-slate-700">Password</label>
-                                        <input type="password" id="login-password" class="mt-1 block w-full border-slate-300 rounded-md focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="••••••" required>
-                                        <p class="mt-1 text-xs text-slate-500">type any six numbers</p>
-                                    </div>
-                                    <p id="login-error" class="text-red-500 text-sm mt-2"></p>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                    <button id="submit-login-btn" type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm">
-                        Login
-                    </button>
-                    <button id="cancel-login-btn" type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
-                        Cancel
-                    </button>
-                </div>
-            </div>
-        </div>
     </div>
-    
-    <!-- Generic Message Modal -->
-    <div id="message-modal" class="hidden fixed z-50 inset-0 overflow-y-auto">
-        <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
-            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-            <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                    <div class="sm:flex sm:items-start">
-                        <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-green-100 sm:mx-0 sm:h-10 sm:w-10">
-                            <svg class="h-6 w-6 text-green-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                            </svg>
-                        </div>
-                        <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                            <h3 class="text-lg leading-6 font-medium text-gray-900" id="message-title">Success</h3>
-                            <div class="mt-2">
-                                <p class="text-sm text-gray-500" id="message-text">Your grievance has been submitted.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                    <button id="message-ok-btn" type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm">
-                        OK
-                    </button>
-                </div>
+
+    <!-- Gemini API Modal -->
+    <div id="gemini-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div id="gemini-modal-overlay" class="absolute inset-0 bg-black bg-opacity-50 transition-opacity duration-300 ease-in-out opacity-0"></div>
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl p-8 modal-content scale-95 relative transition-transform duration-300 ease-in-out">
+            <div class="flex justify-between items-center mb-4">
+                <h2 id="gemini-modal-title" class="text-2xl font-bold text-gray-800">✨ AI Assistant</h2>
+                <button onclick="closeModal()" class="text-gray-500 hover:text-gray-800">
+                    <i class="fas fa-times text-2xl"></i>
+                </button>
+            </div>
+            <div id="gemini-modal-body" class="text-gray-600 max-h-[60vh] overflow-y-auto">
+                <!-- AI content will be injected here -->
             </div>
         </div>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // State
-            let loggedInUser = null; // { id: '...', role: 'civilian'/'official' }
+        // Mock Data
+        const mockData = {
+            student: {
+                name: "Priya Kumar",
+                profile: {
+                    email: "priya.kumar@example.com",
+                    skills: ["JavaScript", "React", "Node.js", "MongoDB"],
+                    projects: "E-commerce Website, Task Management App",
+                    resume: "priya_kumar_resume.pdf"
+                },
+                applications: [
+                    { id: 1, company: "Tech Solutions Inc.", role: "Frontend Developer Intern", status: "Applied", appliedOn: "2025-07-15", lastUpdate: "2025-07-15", history: [{ date: "2025-07-15", note: "Application submitted." }] },
+                    { id: 2, company: "Data Insights Co.", role: "Data Analyst Intern", status: "Interview Scheduled", appliedOn: "2025-07-10", lastUpdate: "2025-07-20", history: [{ date: "2025-07-10", note: "Application submitted." }, { date: "2025-07-20", note: "Invited for a technical interview on 2025-07-25." }] },
+                    { id: 3, company: "Innovate Labs", role: "Full Stack Intern", status: "Offer Received", appliedOn: "2025-07-05", lastUpdate: "2025-07-22", history: [{ date: "2025-07-05", note: "Application submitted." }, { date: "2025-07-15", note: "Completed technical assessment." }, { date: "2025-07-22", note: "Offer extended. Congratulations!" }] },
+                    { id: 4, company: "Creative Minds", role: "UI/UX Intern", status: "Rejected", appliedOn: "2025-07-18", lastUpdate: "2025-07-24", history: [{ date: "2025-07-18", note: "Application submitted." }, { date: "2025-07-24", note: "Application reviewed. Not moving forward at this time." }] },
+                ],
+                logbook: [
+                    { date: "2025-07-21", tasks: "Initial project setup and component creation.", status: "Approved" },
+                    { date: "2025-07-22", tasks: "Developed the user authentication flow.", status: "Pending" },
+                ],
+                notifications: [
+                    {
+                        icon: 'fa-file-alt',
+                        color: 'blue',
+                        text: 'Your application for <strong>Data Analyst Intern</strong> was viewed by Data Insights Co.',
+                        time: '15m ago',
+                        read: false
+                    },
+                    {
+                        icon: 'fa-calendar-alt',
+                        color: 'green',
+                        text: '<strong>Innovate Labs</strong> sent you an interview request for <strong>Full Stack Intern</strong>.',
+                        time: '2h ago',
+                        read: false
+                    },
+                    {
+                        icon: 'fa-lightbulb',
+                        color: 'purple',
+                        text: 'New internship posted matching your skills: <strong>UX Designer at Creative Minds</strong>.',
+                        time: '1d ago',
+                        read: false
+                    },
+                    {
+                        icon: 'fa-check-circle',
+                        color: 'yellow',
+                        text: 'Your logbook entry for <strong>2025-07-21</strong> has been approved.',
+                        time: '2d ago',
+                        read: true
+                    }
+                ]
+            },
+            industry: {
+                name: "Priya Singh",
+                company: "Tech Solutions Inc.",
+                postedJobs: [
+                    { id: 1, title: "Frontend Developer Intern", applicants: 25, status: "Open" },
+                    { id: 2, title: "Backend Developer Intern", applicants: 18, status: "Open" },
+                    { id: 3, title: "DevOps Intern", applicants: 12, status: "Closed" },
+                ],
+                applicants: [
+                     { name: "Aarav Sharma", skills: "React, Node.js", projects: "E-commerce Website", status: "Shortlisted"},
+                     { name: "Neha Gupta", skills: "Python, Django", projects: "Data Visualization Dashboard", status: "New"},
+                     { name: "Rohan Verma", skills: "Angular, TypeScript", projects: "Inventory Management System", status: "Interviewing"},
+                ]
+            },
+            faculty: {
+                name: "Dr. Verma",
+                students: [
+                    { name: "Aarav Sharma", company: "Tech Solutions Inc.", status: "In Progress", logbook: "3 entries pending" },
+                    { name: "Bhavya Patel", company: "Data Insights Co.", status: "Completed", logbook: "Approved" },
+                    { name: "Chetan Kumar", company: "Innovate Labs", status: "Awaiting Approval", logbook: "N/A" },
+                ],
+                approvals: [
+                    { student: "Divya Reddy", company: "Marketing Gurus", role: "Social Media Intern"},
+                    { student: "Eshan Jain", company: "Finance Wizards", role: "Finance Analyst Intern"},
+                ]
+            },
+            alumni_user: { // New mock data for alumni user
+                name: "Rohan Mehra",
+            },
+            internships: [
+                { company: "Tech Solutions Inc.", role: "Frontend Developer", location: "Bengaluru", skills: ["React", "Tailwind CSS"], stipend: "₹25,000/month" },
+                { company: "Data Insights Co.", role: "Data Analyst", location: "Remote", skills: ["Python", "SQL", "Tableau"], stipend: "₹20,000/month" },
+                { company: "Innovate Labs", role: "Full Stack Intern", location: "Pune", skills: ["Node.js", "Express", "MongoDB"], stipend: "₹30,000/month" },
+                { company: "Creative Minds", role: "UI/UX Intern", location: "Mumbai", skills: ["Figma", "Adobe XD"], stipend: "₹15,000/month" },
+            ],
+            alumni: [
+                { name: "Rohan Mehra", company: "Google", role: "Software Engineer", graduationYear: 2021, skills: ["Cloud Computing", "Machine Learning"] },
+                { name: "Anjali Desai", company: "Microsoft", role: "Product Manager", graduationYear: 2020, skills: ["Product Strategy", "Agile Methodologies"] },
+                { name: "Vikram Rathod", company: "Amazon", role: "Data Scientist", graduationYear: 2022, skills: ["Big Data", "Python", "SQL"] },
+                { name: "Sneha Reddy", company: "Salesforce", role: "UX Designer", graduationYear: 2021, skills: ["Figma", "User Research"] },
+            ]
+        };
 
-            // View and Navigation Elements
-            const views = document.querySelectorAll('.view');
-            const navLinks = document.querySelectorAll('.nav-link');
-            const mobileMenuButton = document.getElementById('mobile-menu-button');
-            const mobileMenu = document.getElementById('mobile-menu');
+        // UI Elements
+        const loginScreen = document.getElementById('login-screen');
+        const dashboard = document.getElementById('dashboard');
+        const navLinks = document.getElementById('nav-links');
+        const headerTitle = document.getElementById('header-title');
+        const userWelcome = document.getElementById('user-welcome');
+        const contentArea = document.getElementById('content-area');
+        const geminiModal = document.getElementById('gemini-modal');
+        const geminiModalTitle = document.getElementById('gemini-modal-title');
+        const geminiModalBody = document.getElementById('gemini-modal-body');
+        const geminiModalOverlay = document.getElementById('gemini-modal-overlay');
+        const initialLoginScreenHTML = loginScreen.innerHTML;
+        const notificationButton = document.getElementById('notification-button');
+        const notificationPanel = document.getElementById('notification-panel');
+        const notificationList = document.getElementById('notification-list');
+        const notificationBadge = document.getElementById('notification-badge');
 
-            // Form Elements
-            const grievanceForm = document.getElementById('grievance-form');
-            const trackForm = document.getElementById('track-form');
-            const trackingResults = document.getElementById('tracking-results');
-            const displayTrackingId = document.getElementById('display-tracking-id');
-            const displayCategory = document.getElementById('display-category');
 
-            // Report Type Elements
-            const reportTypeTextRadio = document.getElementById('report-type-text');
-            const reportTypeVoiceRadio = document.getElementById('report-type-voice');
-            const textComplaintFields = document.getElementById('text-complaint-fields');
-            const voiceComplaintFields = document.getElementById('voice-complaint-fields');
+        // Navigation Structure
+        const navConfig = {
+            student: [
+                { icon: 'fa-tachometer-alt', text: 'Dashboard', view: 'studentDashboard' },
+                { icon: 'fa-user', text: 'My Profile', view: 'studentProfile' },
+                { icon: 'fa-search', text: 'Find Internships', view: 'findInternships' },
+                { icon: 'fa-tasks', text: 'My Applications', view: 'studentApplications' },
+                { icon: 'fa-book', text: 'Internship Logbook', view: 'studentLogbook' },
+                { icon: 'fa-lightbulb', text: 'Learning Resources', view: 'learningResources' },
+                { icon: 'fa-users', text: 'Alumni Network', view: 'alumniNetwork' },
+            ],
+            industry: [
+                { icon: 'fa-tachometer-alt', text: 'Dashboard', view: 'industryDashboard' },
+                { icon: 'fa-building', text: 'Company Profile', view: 'companyProfile' },
+                { icon: 'fa-bullhorn', text: 'Post an Internship', view: 'postInternship' },
+                { icon: 'fa-users', text: 'Manage Applicants', view: 'manageApplicants' },
+                { icon: 'fa-check-circle', text: 'Mentor Verification', view: 'mentorVerification' },
+            ],
+            faculty: [
+                { icon: 'fa-tachometer-alt', text: 'Admin Dashboard', view: 'facultyDashboard' },
+                { icon: 'fa-user-graduate', text: 'Student Monitoring', view: 'studentMonitoring' },
+                { icon: 'fa-check-double', text: 'Internship Approvals', view: 'internshipApprovals' },
+                { icon: 'fa-chart-bar', text: 'Analytics & Reports', view: 'facultyReports' },
+                { icon: 'fa-handshake', text: 'Industry Partners', view: 'industryPartners' },
+            ],
+            alumni: [ // New nav config for alumni
+                { icon: 'fa-tachometer-alt', text: 'Alumni Dashboard', view: 'alumniDashboard' },
+                { icon: 'fa-user-edit', text: 'Edit My Profile', view: 'alumniProfile' },
+                { icon: 'fa-comment-dots', text: 'Mentorship Requests', view: 'mentorshipRequests' },
+            ]
+        };
 
-            // Modal Elements
-            const authModal = document.getElementById('auth-modal');
-            const messageModal = document.getElementById('message-modal');
-            const messageTitle = document.getElementById('message-title');
-            const messageText = document.getElementById('message-text');
-            const messageOkBtn = document.getElementById('message-ok-btn');
+        let currentUser = null;
 
-            // Auth Elements
-            const loginBtnDesktop = document.getElementById('login-btn-desktop');
-            const loginBtnMobile = document.getElementById('login-btn-mobile');
-            const cancelLoginBtn = document.getElementById('cancel-login-btn');
-            const submitLoginBtn = document.getElementById('submit-login-btn');
-            const loginForm = document.getElementById('login-form');
-            const loginIdInput = document.getElementById('login-id');
-            const loginPasswordInput = document.getElementById('login-password');
-            const loginError = document.getElementById('login-error');
-            const loginRoleRadios = document.querySelectorAll('input[name="role"]');
-            const idHelperText = document.getElementById('id-helper-text');
+        function login(userType) {
+            switch (userType) {
+                case 'student':
+                    renderStudentLoginPage();
+                    break;
+                case 'industry':
+                    renderIndustryLoginPage();
+                    break;
+                case 'faculty':
+                    renderFacultyLoginPage();
+                    break;
+                case 'alumni':
+                    renderAlumniLoginPage();
+                    break;
+                default:
+                    showRoleSelection();
+            }
+        }
+
+        function showLogin() {
+            currentUser = null;
+            loginScreen.classList.remove('hidden');
+            dashboard.classList.add('hidden');
+            dashboard.classList.remove('flex');
+            showRoleSelection();
+        }
+
+        function setupDashboard(userType) {
+            const userTypeKey = userType === 'alumni' ? 'alumni_user' : userType;
+            // Populate nav links
+            navLinks.innerHTML = navConfig[userType]
+                .map((link, index) => `
+                    <a href="#" data-view="${link.view}" class="sidebar-link ${index === 0 ? 'active' : ''} flex items-center space-x-3 py-2 px-4 rounded-lg" onclick="switchView('${link.view}', this)">
+                        <i class="fas ${link.icon}"></i>
+                        <span>${link.text}</span>
+                    </a>
+                `).join('');
+
+            // Set user welcome message
+            const userData = mockData[userTypeKey];
+            userWelcome.textContent = `Welcome, ${userData.name}!`;
+
+            if (userType === 'student') {
+                renderNotifications();
+            }
+
+            // Load initial view
+            switchView(navConfig[userType][0].view, navLinks.children[0]);
+        }
+        
+        function switchView(view, element) {
+            // Update header title based on view, handling custom views
+             let linkText = 'Prashiskshan'; // Default title
+            if (view === 'internshipPostedConfirmation') {
+                linkText = 'Confirmation';
+            } else {
+                const linkConfig = navConfig[currentUser].find(l => l.view === view);
+                if (linkConfig) {
+                    linkText = linkConfig.text;
+                }
+            }
+            headerTitle.textContent = linkText;
+
+
+            // Update active link
+            document.querySelectorAll('.sidebar-link').forEach(link => link.classList.remove('active'));
+            if(element) {
+                element.classList.add('active');
+            }
+
+
+            // Render content
+            contentArea.innerHTML = renderView(view);
+        }
+        
+        // --- Gemini API Integration ---
+        function showModal(title, body) {
+            geminiModalTitle.innerHTML = title;
+            geminiModalBody.innerHTML = body;
+            geminiModal.classList.remove('hidden');
+            setTimeout(() => {
+                geminiModalOverlay.classList.remove('opacity-0');
+                geminiModalOverlay.classList.add('opacity-100');
+                const content = geminiModal.querySelector('.modal-content');
+                if (content) {
+                    content.classList.remove('scale-95');
+                    content.classList.add('scale-100');
+                }
+            }, 10);
+        }
+
+        function closeModal() {
+            geminiModalOverlay.classList.remove('opacity-100');
+            geminiModalOverlay.classList.add('opacity-0');
+            const content = geminiModal.querySelector('.modal-content');
+            if (content) {
+                content.classList.remove('scale-100');
+                content.classList.add('scale-95');
+            }
+            setTimeout(() => {
+                geminiModal.classList.add('hidden');
+            }, 300);
+        }
+        
+        async function callGeminiAPI(prompt, context) {
+            const systemPrompt = "You are a helpful assistant for the Prashiskshan platform, an interface between academia and industry. Your responses should be professional, encouraging, and constructive.";
+            const userQuery = `${prompt}\n\nContext:\n${context}`;
+            const apiKey = ""; // Canvas will provide this.
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+
+            const payload = {
+                contents: [{ parts: [{ text: userQuery }] }],
+                systemInstruction: { parts: [{ text: systemPrompt }] },
+            };
             
-            const authContainerDesktop = document.getElementById('auth-container-desktop');
-            const authContainerMobile = document.getElementById('auth-container-mobile');
-            const navMenuDesktop = document.getElementById('nav-menu-desktop');
-            const navMenuMobile = document.getElementById('nav-menu-mobile');
-            const officialNavMenuDesktop = document.getElementById('official-nav-menu-desktop');
-            const officialNavMenuMobile = document.getElementById('official-nav-menu-mobile');
-
-            // --- UI Navigation ---
-            function showView(viewId) {
-                views.forEach(view => {
-                    if (view.id === viewId) {
-                        view.classList.add('active');
-                    } else {
-                        view.classList.remove('active');
-                    }
+            // This is a mock API call for demonstration.
+            console.log("Calling Gemini API with payload:", payload);
+            showModal('✨ AI Assistant is thinking...', '<div class="flex justify-center items-center p-8"><i class="fas fa-spinner fa-spin text-4xl text-blue-600"></i></div>');
+            return new Promise(resolve => {
+                setTimeout(() => {
+                    const mockResponse = `
+                        <div class="p-4 text-center">
+                             <i class="fas fa-info-circle text-3xl text-blue-500 mb-4"></i>
+                             <p class="font-medium text-lg">This section will work in the developed software, not in the prototype.</p>
+                        </div>
+                    `;
+                    resolve({ text: () => Promise.resolve(mockResponse) });
+                }, 1000);
+            });
+        }
+        
+        function handleProfileReview() {
+            const context = `Student Name: ${mockData.student.name}, Skills: ${mockData.student.profile.skills.join(', ')}, Projects: ${mockData.student.profile.projects}`;
+            callGeminiAPI("Please review this student's profile and provide constructive feedback for improvement.", context)
+                .then(res => res.text())
+                .then(text => {
+                     showModal('✨ AI Profile Review', text);
                 });
-                window.scrollTo(0, 0);
-            }
+        }
 
-            navLinks.forEach(link => {
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const viewId = link.getAttribute('data-view');
-                    if (viewId) {
-                        showView(viewId);
-                    }
-                    if (mobileMenu.classList.contains('hidden') === false) {
-                        mobileMenu.classList.add('hidden');
-                    }
+        function handleGenerateDescription() {
+            const title = document.getElementById('internship-title-input').value || "Frontend Developer Intern";
+            const skills = document.getElementById('internship-skills-input').value || "React, JavaScript, HTML/CSS";
+            const context = `Internship Title: ${title}, Required Skills: ${skills}`;
+            callGeminiAPI("Generate a compelling internship description based on the following details.", context)
+                .then(res => res.text())
+                .then(text => {
+                     showModal('✨ AI Generated Description', text);
                 });
-            });
-
-            mobileMenuButton.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-            });
-
-            // --- Form Logic ---
-            grievanceForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const trackingId = `JSD-${Math.floor(10000 + Math.random() * 90000)}`;
-                showMessage('Grievance Submitted!', `Your tracking ID is ${trackingId}. Please save it for future reference.`);
-                grievanceForm.reset();
-                showView('home');
-            });
-
-            trackForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const trackingId = document.getElementById('tracking-id-input').value;
-                if (trackingId) {
-                    displayTrackingId.textContent = trackingId;
-                    displayCategory.textContent = 'Streetlight Not Working'; // Dummy data
-                    trackingResults.classList.remove('hidden');
-                }
-            });
-
-            // --- Complaint Type Toggle ---
-            reportTypeTextRadio.addEventListener('change', () => {
-                if (reportTypeTextRadio.checked) {
-                    textComplaintFields.classList.remove('hidden');
-                    voiceComplaintFields.classList.add('hidden');
-                }
-            });
-            reportTypeVoiceRadio.addEventListener('change', () => {
-                if (reportTypeVoiceRadio.checked) {
-                    textComplaintFields.classList.add('hidden');
-                    voiceComplaintFields.classList.remove('hidden');
-                }
-            });
-
-            // --- Authentication Logic ---
-            loginRoleRadios.forEach(radio => {
-                radio.addEventListener('change', () => {
-                    const selectedRole = document.querySelector('input[name="role"]:checked').value;
-                    if (selectedRole === 'official') {
-                        idHelperText.textContent = 'For prototype, please use ID: GOVT123';
-                    } else {
-                        idHelperText.textContent = '';
-                    }
+        }
+        
+         function handleApplicantSummary(applicantIndex) {
+            const applicant = mockData.industry.applicants[applicantIndex];
+            const context = `Applicant Name: ${applicant.name}, Skills: ${applicant.skills}, Projects: ${applicant.projects}`;
+            callGeminiAPI("Provide a brief, two-sentence summary of this applicant's strengths and suitability for an internship.", context)
+                .then(res => res.text())
+                .then(text => {
+                    showModal(`✨ AI Summary: ${applicant.name}`, text);
                 });
-            });
-
-            function openAuthModal() {
-                authModal.classList.remove('hidden');
-                loginForm.reset();
-                loginError.textContent = '';
-                idHelperText.textContent = '';
-                loginIdInput.focus();
-            }
-
-            function closeAuthModal() {
-                authModal.classList.add('hidden');
-            }
-
-            function handleLogin() {
-                const id = loginIdInput.value;
-                const password = loginPasswordInput.value;
-                const role = document.querySelector('input[name="role"]:checked').value;
-
-                loginError.textContent = '';
-                
-                // Password validation: must be 6 digits
-                if (!/^\d{6}$/.test(password)) {
-                    loginError.textContent = 'Password must be exactly 6 numbers.';
-                    return;
-                }
-
-                // Official Login
-                if (role === 'official') {
-                    if (id === 'GOVT123') {
-                        loggedInUser = { id, role: 'official' };
-                        updateUIForLogin();
-                        closeAuthModal();
-                    } else {
-                        loginError.textContent = 'Invalid Official ID.';
-                    }
-                // Civilian Login
-                } else {
-                     if (/^\d{10}$/.test(id)) {
-                        loggedInUser = { id, role: 'civilian' };
-                        updateUIForLogin();
-                        closeAuthModal();
-                    } else {
-                        loginError.textContent = 'Civilian ID must be a 10-digit mobile number.';
-                    }
-                }
-            }
+        }
+        
+        function applyForInternship(internshipIndex) {
+            const internship = mockData.internships[internshipIndex];
             
-            function handleLogout() {
-                loggedInUser = null;
-                updateUIForLogin();
+            // Check if already applied to prevent duplicates
+            const alreadyApplied = mockData.student.applications.some(app => app.company === internship.company && app.role === internship.role);
+
+            if (alreadyApplied) {
+                showModal('Already Applied', `<div class="text-center p-4"><p>You have already applied for the <strong>${internship.role}</strong> position at <strong>${internship.company}</strong>.</p></div>`);
+                return;
             }
 
-            function updateUIForLogin() {
-                authContainerDesktop.innerHTML = '';
-                authContainerMobile.innerHTML = '';
+            const newApplication = {
+                id: mockData.student.applications.length + 1,
+                company: internship.company,
+                role: internship.role,
+                status: "Applied",
+                appliedOn: new Date().toISOString().split('T')[0],
+                lastUpdate: new Date().toISOString().split('T')[0],
+                history: [{ date: new Date().toISOString().split('T')[0], note: "Application submitted." }]
+            };
 
-                if (loggedInUser) {
-                    const welcomeMessage = loggedInUser.role === 'official' ? 'Official' : loggedInUser.id;
-                    const loggedInHTML = `
-                        <div class="flex items-center">
-                            <span class="text-sm font-medium text-slate-700 mr-4">Welcome, ${welcomeMessage}</span>
-                            <button id="logout-btn" class="bg-slate-200 text-slate-800 px-4 py-2 rounded-md text-sm font-medium hover:bg-slate-300">Logout</button>
-                        </div>`;
-                    authContainerDesktop.innerHTML = loggedInHTML;
-                    authContainerMobile.innerHTML = loggedInHTML.replace('mr-4', 'mb-2 w-full'); // Mobile styling
-                    
-                    document.getElementById('logout-btn').addEventListener('click', handleLogout);
-                     if(authContainerMobile.querySelector('#logout-btn')) { // ensure it exists before adding listener
-                        authContainerMobile.querySelector('#logout-btn').addEventListener('click', handleLogout);
-                    }
+            mockData.student.applications.unshift(newApplication); // Add to the top of the list
 
-                    if (loggedInUser.role === 'official') {
-                        navMenuDesktop.classList.add('hidden');
-                        navMenuMobile.classList.add('hidden');
-                        officialNavMenuDesktop.classList.remove('hidden');
-                        officialNavMenuMobile.classList.remove('hidden');
-                        showView('official-dashboard');
-                    } else {
-                        navMenuDesktop.classList.remove('hidden');
-                        navMenuMobile.classList.remove('hidden');
-                        officialNavMenuDesktop.classList.add('hidden');
-                        officialNavMenuMobile.classList.add('hidden');
-                        showView('home');
-                    }
+            showModal('Success!', `
+                <div class="text-center p-4">
+                    <i class="fas fa-check-circle text-4xl text-green-500 mb-4"></i>
+                    <p class="text-lg font-medium">You have successfully applied for the</p>
+                    <p class="font-bold text-xl text-blue-700">${internship.role}</p>
+                    <p class="text-md">at ${internship.company}.</p>
+                    <p class="mt-4 text-sm text-gray-500">Redirecting to your applications...</p>
+                </div>
+            `);
 
-                } else {
-                    const loggedOutHTML = `<button id="login-btn" class="w-full md:w-auto bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700">Login / Register</button>`;
-                    authContainerDesktop.innerHTML = loggedOutHTML;
-                    authContainerMobile.innerHTML = loggedOutHTML;
-                    
-                    authContainerDesktop.querySelector('#login-btn').addEventListener('click', openAuthModal);
-                    authContainerMobile.querySelector('#login-btn').addEventListener('click', openAuthModal);
-                    
-                    navMenuDesktop.classList.remove('hidden');
-                    navMenuMobile.classList.remove('hidden');
-                    officialNavMenuDesktop.classList.add('hidden');
-                    officialNavMenuMobile.classList.add('hidden');
-                    showView('home');
+            // Redirect after a delay
+            setTimeout(() => {
+                closeModal();
+                // Find the correct sidebar link element to pass to switchView
+                const sidebarLink = document.querySelector(".sidebar-link[data-view='studentApplications']");
+                if (sidebarLink) {
+                    switchView('studentApplications', sidebarLink);
                 }
+            }, 2500);
+        }
+
+        function showApplicationTracker(applicationId) {
+            const application = mockData.student.applications.find(app => app.id === applicationId);
+            if (!application) return;
+
+            const trackerHtml = `
+                <div class="space-y-4">
+                    ${application.history.slice().reverse().map((event, index, arr) => `
+                        <div class="flex items-start">
+                            <div class="flex flex-col items-center mr-4">
+                                <div class="w-4 h-4 rounded-full ${index === 0 ? 'bg-blue-500 ring-4 ring-blue-100' : 'bg-gray-300'}"></div>
+                                ${index < arr.length - 1 ? '<div class="w-px h-12 bg-gray-300"></div>' : ''}
+                            </div>
+                            <div>
+                                <p class="font-semibold text-gray-800">${event.date}</p>
+                                <p class="text-gray-600">${event.note}</p>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+
+            showModal(`<i class="fas fa-clipboard-list mr-2"></i> Tracker: ${application.role}`, trackerHtml);
+        }
+
+        function renderStudentLoginPage() {
+            loginScreen.innerHTML = `
+                <div class="bg-white p-10 rounded-2xl shadow-2xl text-center w-full max-w-md mx-4">
+                    <h2 class="text-3xl font-bold text-blue-800 mb-2">Student Login</h2>
+                    <p class="text-gray-500 mb-2">Enter your credentials to continue.</p>
+                    <p class="text-xs text-red-500 italic mb-6">Use exact details for prototype purpose.</p>
+                    <form onsubmit="event.preventDefault(); handleLogin('student');" class="space-y-4 text-left">
+                        <div>
+                            <label for="student-email" class="block text-sm font-medium text-gray-700">Email Address</label>
+                            <input type="email" id="student-email" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm" value="priya.kumar@example.com" required>
+                        </div>
+                        <div>
+                            <label for="student-password" class="block text-sm font-medium text-gray-700">Password</label>
+                            <input type="password" id="student-password" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm" value="password" required>
+                        </div>
+                        <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-300">
+                            Login
+                        </button>
+                    </form>
+                    <button onclick="showRoleSelection()" class="mt-4 text-sm text-gray-600 hover:underline">← Back to role selection</button>
+                </div>
+            `;
+        }
+
+        function renderIndustryLoginPage() {
+            loginScreen.innerHTML = `
+                <div class="bg-white p-10 rounded-2xl shadow-2xl text-center w-full max-w-md mx-4">
+                    <h2 class="text-3xl font-bold text-green-800 mb-2">Industry Login</h2>
+                    <p class="text-gray-500 mb-2">Access your company dashboard.</p>
+                    <p class="text-xs text-red-500 italic mb-6">Use exact details for prototype purpose.</p>
+                    <form onsubmit="event.preventDefault(); handleLogin('industry');" class="space-y-4 text-left">
+                        <div>
+                            <label for="industry-email" class="block text-sm font-medium text-gray-700">Email Address</label>
+                            <input type="email" id="industry-email" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm" value="priya.singh@techsolutions.com" required>
+                        </div>
+                        <div>
+                            <label for="industry-password" class="block text-sm font-medium text-gray-700">Password</label>
+                            <input type="password" id="industry-password" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm" value="password" required>
+                        </div>
+                        <button type="submit" class="w-full bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition duration-300">
+                            Login
+                        </button>
+                    </form>
+                    <button onclick="showRoleSelection()" class="mt-4 text-sm text-gray-600 hover:underline">← Back to role selection</button>
+                </div>
+            `;
+        }
+
+        function renderFacultyLoginPage() {
+            loginScreen.innerHTML = `
+                <div class="bg-white p-10 rounded-2xl shadow-2xl text-center w-full max-w-md mx-4">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-2">Faculty/Admin Login</h2>
+                    <p class="text-gray-500 mb-2">Access the administrative panel.</p>
+                    <p class="text-xs text-red-500 italic mb-6">Use exact details for prototype purpose.</p>
+                    <form onsubmit="event.preventDefault(); handleLogin('faculty');" class="space-y-4 text-left">
+                        <div>
+                            <label for="faculty-email" class="block text-sm font-medium text-gray-700">Email Address</label>
+                            <input type="email" id="faculty-email" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm" value="verma@college.edu" required>
+                        </div>
+                        <div>
+                            <label for="faculty-password" class="block text-sm font-medium text-gray-700">Password</label>
+                            <input type="password" id="faculty-password" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm" value="password" required>
+                        </div>
+                        <button type="submit" class="w-full bg-gray-600 text-white py-3 rounded-lg font-semibold hover:bg-gray-700 transition duration-300">
+                            Login
+                        </button>
+                    </form>
+                    <button onclick="showRoleSelection()" class="mt-4 text-sm text-gray-600 hover:underline">← Back to role selection</button>
+                </div>
+            `;
+        }
+
+        function renderAlumniLoginPage() {
+            loginScreen.innerHTML = `
+                <div class="bg-white p-10 rounded-2xl shadow-2xl text-center w-full max-w-md mx-4">
+                    <h2 class="text-3xl font-bold text-orange-800 mb-2">Alumni Login</h2>
+                    <p class="text-gray-500 mb-2">Access the alumni mentor portal.</p>
+                    <p class="text-xs text-red-500 italic mb-6">Use exact details for prototype purpose.</p>
+                    <form onsubmit="event.preventDefault(); handleLogin('alumni');" class="space-y-4 text-left">
+                        <div>
+                            <label for="alumni-email" class="block text-sm font-medium text-gray-700">Email Address</label>
+                            <input type="email" id="alumni-email" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm" value="rohan.mehra@example.com" required>
+                        </div>
+                        <div>
+                            <label for="alumni-password" class="block text-sm font-medium text-gray-700">Password</label>
+                            <input type="password" id="alumni-password" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm" value="password" required>
+                        </div>
+                        <button type="submit" class="w-full bg-orange-500 text-white py-3 rounded-lg font-semibold hover:bg-orange-600 transition duration-300">
+                            Login
+                        </button>
+                    </form>
+                    <button onclick="showRoleSelection()" class="mt-4 text-sm text-gray-600 hover:underline">← Back to role selection</button>
+                </div>
+            `;
+        }
+
+
+        function handleLogin(userType) {
+            // In a real app, you'd validate credentials here.
+            currentUser = userType;
+            loginScreen.classList.add('hidden');
+            dashboard.classList.remove('hidden');
+            dashboard.classList.add('flex');
+            setupDashboard(userType);
+        }
+
+        function showRoleSelection() {
+            loginScreen.innerHTML = initialLoginScreenHTML;
+        }
+
+        function showNewLogEntryForm() {
+            const formContainer = document.getElementById('new-log-entry-form-container');
+            if (formContainer) {
+                formContainer.innerHTML = `
+                    <div class="p-4 border rounded-lg bg-gray-50 mb-6">
+                        <h3 class="font-semibold mb-2">Add New Log Entry</h3>
+                        <div class="space-y-3">
+                            <div>
+                                <label for="new-log-date" class="block text-sm font-medium text-gray-700">Date</label>
+                                <input type="date" id="new-log-date" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm" value="${new Date().toISOString().split('T')[0]}">
+                            </div>
+                            <div>
+                                 <label for="new-log-tasks" class="block text-sm font-medium text-gray-700">Tasks / Learnings</label>
+                                <textarea id="new-log-tasks" class="w-full p-2 border rounded mt-1" rows="3" placeholder="Describe your work for the day..."></textarea>
+                            </div>
+                        </div>
+                        <div class="mt-4 flex gap-2">
+                            <button onclick="saveNewLogEntry()" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Save Entry</button>
+                            <button onclick="cancelNewLogEntry()" class="bg-gray-300 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-400">Cancel</button>
+                        </div>
+                    </div>
+                `;
+                formContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
+        }
 
+        function saveNewLogEntry() {
+            const dateInput = document.getElementById('new-log-date');
+            const tasksInput = document.getElementById('new-log-tasks');
 
-            loginBtnDesktop.addEventListener('click', openAuthModal);
-            loginBtnMobile.addEventListener('click', openAuthModal);
-            cancelLoginBtn.addEventListener('click', closeAuthModal);
-            submitLoginBtn.addEventListener('click', handleLogin);
-            loginForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                handleLogin();
+            if (dateInput.value && tasksInput.value) {
+                const newEntry = {
+                    date: dateInput.value,
+                    tasks: tasksInput.value,
+                    status: "Pending"
+                };
+                mockData.student.logbook.unshift(newEntry);
+                switchView('studentLogbook', document.querySelector(".sidebar-link[data-view='studentLogbook']"));
+            } else {
+                showModal('Error', '<p>Please fill in both the date and tasks before saving.</p>')
+            }
+        }
+
+        function cancelNewLogEntry() {
+             const formContainer = document.getElementById('new-log-entry-form-container');
+             if(formContainer){
+                formContainer.innerHTML = '';
+             }
+        }
+
+        function performSearch() {
+            const keywords = document.getElementById('search-keywords').value.toLowerCase();
+            const location = document.getElementById('search-location').value.toLowerCase();
+            const listContainer = document.getElementById('internship-list');
+
+            const filteredInternships = mockData.internships.filter(internship => {
+                const matchesKeywords = keywords === '' ||
+                    internship.role.toLowerCase().includes(keywords) ||
+                    internship.company.toLowerCase().includes(keywords) ||
+                    internship.skills.some(skill => skill.toLowerCase().includes(keywords));
+
+                const matchesLocation = location === '' ||
+                    internship.location.toLowerCase().includes(location);
+
+                return matchesKeywords && matchesLocation;
             });
 
+            if (filteredInternships.length > 0) {
+                listContainer.innerHTML = filteredInternships.map(job => {
+                    const originalIndex = mockData.internships.findIndex(i => i.company === job.company && i.role === job.role);
+                    return `
+                        <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition">
+                            <h3 class="text-xl font-bold">${job.role}</h3>
+                            <p class="text-gray-600 font-medium">${job.company}</p>
+                            <p class="text-sm text-gray-500 mt-2"><i class="fas fa-map-marker-alt"></i> ${job.location}</p>
+                            <div class="my-3 flex flex-wrap gap-2">${job.skills.map(s => `<span class="bg-gray-200 text-gray-800 px-2 py-1 text-sm rounded">${s}</span>`).join('')}</div>
+                            <p class="font-semibold">${job.stipend}</p>
+                            <button onclick="applyForInternship(${originalIndex})" class="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">Apply Now</button>
+                        </div>
+                    `;
+                }).join('');
+            } else {
+                listContainer.innerHTML = `
+                    <div class="col-span-1 md:col-span-2 lg:col-span-3 text-center py-12 bg-white rounded-xl shadow-md">
+                        <i class="fas fa-search text-4xl text-gray-400 mb-4"></i>
+                        <h3 class="text-xl font-bold text-gray-700">No Internships Found</h3>
+                        <p class="text-gray-500">Try adjusting your search filters.</p>
+                    </div>
+                `;
+            }
+        }
 
-            // --- Message Modal ---
-            function showMessage(title, text) {
-                messageTitle.textContent = title;
-                messageText.textContent = text;
-                messageModal.classList.remove('hidden');
+        function handlePostInternship() {
+            const title = document.getElementById('internship-title-input').value;
+            // In a real app, you'd collect all data and save it
+            if (title) {
+                const newInternship = {
+                    id: mockData.industry.postedJobs.length + 1,
+                    title: title,
+                    applicants: 0,
+                    status: 'Open'
+                };
+                mockData.industry.postedJobs.unshift(newInternship);
+                switchView('internshipPostedConfirmation', null); // Switch to confirmation view
+            }
+        }
+
+
+        function renderView(view) {
+            switch(view) {
+                // STUDENT VIEWS
+                case 'studentDashboard': return renderStudentDashboard();
+                case 'studentProfile': return renderStudentProfile();
+                case 'findInternships': return renderFindInternships();
+                case 'studentApplications': return renderStudentApplications();
+                case 'studentLogbook': return renderStudentLogbook();
+                case 'learningResources': return renderLearningResources();
+                case 'alumniNetwork': return renderAlumniNetwork();
+                // INDUSTRY VIEWS
+                case 'industryDashboard': return renderIndustryDashboard();
+                case 'companyProfile': return renderCompanyProfile();
+                case 'postInternship': return renderPostInternship();
+                case 'manageApplicants': return renderManageApplicants();
+                case 'mentorVerification': return renderMentorVerification();
+                case 'internshipPostedConfirmation': return renderInternshipPostedConfirmation();
+                // FACULTY VIEWS
+                case 'facultyDashboard': return renderFacultyDashboard();
+                case 'studentMonitoring': return renderStudentMonitoring();
+                case 'internshipApprovals': return renderInternshipApprovals();
+                case 'facultyReports': return renderFacultyReports();
+                case 'industryPartners': return `
+                    <div class="bg-white p-8 rounded-xl shadow-md">
+                        <h2 class="text-2xl font-bold mb-6">Industry Partners</h2>
+                        <p class="text-center text-gray-500 italic mt-8">
+                            this section is for prototype purpose only. More data will be added on developed version.
+                        </p>
+                    </div>
+                `; // Placeholder
+                 // ALUMNI VIEWS
+                case 'alumniDashboard': return renderAlumniDashboard();
+                case 'alumniProfile': return `
+                    <div class="bg-white p-8 rounded-xl shadow-md">
+                        <h2 class="text-2xl font-bold mb-6">Edit My Profile</h2>
+                        <p class="text-center text-gray-500 italic mt-8">
+                            this is for prototype purpose only, more data and features will be added during development.
+                        </p>
+                    </div>
+                `;
+                case 'mentorshipRequests': return `
+                    <div class="bg-white p-8 rounded-xl shadow-md">
+                        <h2 class="text-2xl font-bold mb-6">Mentorship Requests</h2>
+                        <p class="text-center text-gray-500 italic mt-8">
+                            this is for prototype purpose only, more data and features will be added during development.
+                        </p>
+                    </div>
+                `;
+                default: return `<h2>Content not found</h2>`;
+            }
+        }
+        
+        // --- RENDERING FUNCTIONS FOR EACH VIEW ---
+
+        // STUDENT
+        function renderStudentDashboard() {
+            const appCount = mockData.student.applications.length;
+            const logCount = mockData.student.logbook.length;
+            const offerCount = mockData.student.applications.filter(a => a.status === 'Offer Received').length;
+            return `
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="bg-white p-6 rounded-xl shadow-md flex items-center gap-4">
+                        <i class="fas fa-file-alt text-4xl text-blue-500 flex-shrink-0"></i>
+                        <div class="flex-1">
+                            <p class="text-gray-500">Total Applications</p>
+                            <p class="text-2xl font-bold">${appCount}</p>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md flex items-center gap-4">
+                        <i class="fas fa-book-open text-4xl text-yellow-500 flex-shrink-0"></i>
+                        <div class="flex-1">
+                            <p class="text-gray-500">Logbook Entries</p>
+                            <p class="text-2xl font-bold">${logCount}</p>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md flex items-center gap-4">
+                         <i class="fas fa-graduation-cap text-4xl text-purple-500 flex-shrink-0"></i>
+                        <div class="flex-1">
+                            <p class="text-gray-500">Academic Credits</p>
+                            <p class="text-2xl font-bold">4 (Est.)</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        function renderStudentProfile() {
+            const profile = mockData.student.profile;
+            return `
+                <div class="bg-white p-8 rounded-xl shadow-md">
+                    <div class="flex justify-between items-start mb-6">
+                        <h2 class="text-2xl font-bold">My Profile</h2>
+                        <button onclick="handleProfileReview()" class="bg-gradient-to-r from-purple-500 to-indigo-600 text-white px-5 py-2 rounded-lg hover:from-purple-600 hover:to-indigo-700 shadow-md flex items-center gap-2 transition-transform transform hover:scale-105">
+                            <i class="fas fa-magic"></i> ✨ Get AI Feedback
+                        </button>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div><p class="font-medium">Name:</p><p class="p-2 bg-gray-100 rounded">${mockData.student.name}</p></div>
+                        <div><p class="font-medium">Email:</p><p class="p-2 bg-gray-100 rounded">${profile.email}</p></div>
+                        <div><p class="font-medium">Skills:</p><div class="flex flex-wrap gap-2 mt-1">${profile.skills.map(s => `<span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full">${s}</span>`).join('')}</div></div>
+                        <div><p class="font-medium">Projects:</p><p class="p-2 bg-gray-100 rounded">${profile.projects}</p></div>
+                        <div><p class="font-medium">Resume:</p><a href="#" class="text-blue-600 hover:underline flex items-center gap-2 p-2"><i class="fas fa-file-pdf"></i>${profile.resume}</a></div>
+                    </div>
+                     <button class="mt-8 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">Edit Profile</button>
+                </div>
+            `;
+        }
+
+        function renderFindInternships() {
+            return `
+                <div class="bg-white p-6 rounded-xl shadow-md mb-6">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <input type="text" id="search-keywords" placeholder="Keywords (e.g., React, Python)" class="p-2 border rounded">
+                        <input type="text" id="search-location" placeholder="Location (e.g., Remote, Bengaluru)" class="p-2 border rounded">
+                        <select id="search-industry" class="p-2 border rounded"><option>All Industries</option><option>IT</option><option>Finance</option></select>
+                        <button onclick="performSearch()" class="bg-blue-600 text-white p-2 rounded hover:bg-blue-700">Search</button>
+                    </div>
+                </div>
+                <div id="internship-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    ${mockData.internships.map((job, index) => `
+                        <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition">
+                            <h3 class="text-xl font-bold">${job.role}</h3>
+                            <p class="text-gray-600 font-medium">${job.company}</p>
+                            <p class="text-sm text-gray-500 mt-2"><i class="fas fa-map-marker-alt"></i> ${job.location}</p>
+                            <div class="my-3 flex flex-wrap gap-2">${job.skills.map(s => `<span class="bg-gray-200 text-gray-800 px-2 py-1 text-sm rounded">${s}</span>`).join('')}</div>
+                            <p class="font-semibold">${job.stipend}</p>
+                            <button onclick="applyForInternship(${index})" class="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">Apply Now</button>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function renderStudentApplications() {
+            const columns = {
+                "Applied": [],
+                "Interview Scheduled": [],
+                "Offer Received": [],
+                "Rejected": []
+            };
+            mockData.student.applications.forEach(app => {
+                if (columns[app.status]) {
+                    columns[app.status].push(app);
+                }
+            });
+            return `
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+                    ${Object.keys(columns).map(status => `
+                        <div class="bg-gray-100 rounded-lg p-3">
+                            <h3 class="font-bold text-lg mb-4 text-gray-700">${status} (${columns[status].length})</h3>
+                            <div class="space-y-3">
+                                ${columns[status].map(app => `
+                                    <div class="bg-white p-4 rounded-md shadow">
+                                        <p class="font-semibold">${app.role}</p>
+                                        <p class="text-sm text-gray-600">${app.company}</p>
+                                        <p class="text-xs text-gray-400 mt-2">Applied: ${app.appliedOn}</p>
+                                        <button onclick="showApplicationTracker(${app.id})" class="text-sm text-blue-600 hover:underline mt-2 w-full text-right font-semibold">View Details &rarr;</button>
+                                    </div>
+                                `).join('') || `<p class="text-sm text-gray-400 p-4 text-center">No applications</p>`}
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function renderStudentLogbook() {
+            return `
+                <div class="bg-white p-8 rounded-xl shadow-md">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-2xl font-bold">Internship Logbook</h2>
+                        <button onclick="showNewLogEntryForm()" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 flex items-center gap-2"><i class="fas fa-plus"></i> Add New Entry</button>
+                    </div>
+                    
+                    <div id="new-log-entry-form-container"></div>
+
+                    <div class="space-y-4 mt-6">
+                        ${mockData.student.logbook.map(entry => `
+                            <div class="border p-4 rounded-lg bg-white">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <p class="font-bold">${entry.date}</p>
+                                        <p class="text-gray-700 mt-1">${entry.tasks}</p>
+                                    </div>
+                                    <span class="px-3 py-1 text-sm rounded-full ${entry.status === 'Approved' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}">${entry.status}</span>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <p class="text-center text-gray-500 italic my-6">This will work in the developed version, not in this prototype.</p>
+                    <button class="w-full bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700"><i class="fas fa-file-download"></i> Generate Report</button>
+                </div>
+            `;
+        }
+        
+        function renderLearningResources() {
+            return `
+                <div class="bg-white p-8 rounded-xl shadow-md">
+                    <h2 class="text-2xl font-bold mb-6">Skill Readiness & Learning</h2>
+                </div>
+                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <h3 class="font-bold text-lg">Resume Building Workshop</h3>
+                        <p class="text-gray-600 mt-2">Learn how to create a resume that stands out to recruiters.</p>
+                        <p class="text-xs text-red-500 italic mt-2">Courses won't be available in the prototype version.</p>
+                        <button class="mt-4 text-blue-400 font-semibold cursor-not-allowed" disabled>Start Learning &rarr;</button>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <h3 class="font-bold text-lg">ReactJS Skill Assessment</h3>
+                        <p class="text-gray-600 mt-2">Test your React knowledge and find areas for improvement.</p>
+                        <p class="text-xs text-red-500 italic mt-2">Courses won't be available in the prototype version.</p>
+                        <button class="mt-4 text-blue-400 font-semibold cursor-not-allowed" disabled>Take Assessment &rarr;</button>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <h3 class="font-bold text-lg">Interview Preparation Guide</h3>
+                        <p class="text-gray-600 mt-2">Common questions, STAR method, and tips for technical interviews.</p>
+                         <p class="text-xs text-red-500 italic mt-2">Courses won't be available in the prototype version.</p>
+                        <button class="mt-4 text-blue-400 font-semibold cursor-not-allowed" disabled>View Guide &rarr;</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderAlumniNetwork() {
+            return `
+                <div class="bg-white p-8 rounded-xl shadow-md">
+                    <h2 class="text-2xl font-bold mb-6">Alumni Network</h2>
+                    <p class="text-gray-600 mb-6">Connect with alumni for mentorship, career advice, and industry insights.</p>
+                    
+                    <!-- Search and Filter -->
+                    <div class="mb-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <input type="text" placeholder="Search by name, company, or skill..." class="p-2 border rounded w-full md:col-span-2">
+                        <button class="bg-blue-600 text-white p-2 rounded hover:bg-blue-700">Search Alumni</button>
+                    </div>
+
+                    <!-- Alumni List -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        ${mockData.alumni.map(alumnus => `
+                            <div class="border p-4 rounded-lg bg-gray-50 flex items-start gap-4">
+                                <img src="https://placehold.co/64x64/E2E8F0/4A5568?text=${alumnus.name.charAt(0)}" alt="${alumnus.name}" class="rounded-full">
+                                <div>
+                                    <p class="font-bold text-lg">${alumnus.name} <span class="text-sm font-normal text-gray-500">(${alumnus.graduationYear})</span></p>
+                                    <p class="font-medium text-gray-700">${alumnus.role} at ${alumnus.company}</p>
+                                    <div class="mt-2 flex flex-wrap gap-1">
+                                        ${alumnus.skills.map(skill => `<span class="bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded-full">${skill}</span>`).join('')}
+                                    </div>
+                                    <button onclick="connectWithAlumni('${alumnus.name}')" class="mt-4 bg-blue-100 text-blue-700 text-sm font-semibold px-4 py-2 rounded-lg hover:bg-blue-200">
+                                        <i class="fas fa-paper-plane mr-2"></i>Connect
+                                    </button>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function connectWithAlumni(name) {
+            showModal('Connect with Alumni', `
+                <div class="p-4 text-center">
+                     <i class="fas fa-info-circle text-3xl text-blue-500 mb-4"></i>
+                     <p class="font-medium text-lg">This feature will be available in the full version, allowing you to send a message to ${name}.</p>
+                </div>
+            `);
+        }
+
+        // INDUSTRY
+        function renderIndustryDashboard() {
+            return `
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="relative bg-gradient-to-br from-blue-500 to-indigo-600 p-6 rounded-xl shadow-lg text-white overflow-hidden">
+                        <i class="fas fa-briefcase absolute -right-4 -bottom-4 text-7xl opacity-20 transform rotate-12"></i>
+                        <p class="text-4xl font-bold">${mockData.industry.postedJobs.filter(j=>j.status === 'Open').length}</p>
+                        <p class="mt-1 font-medium text-blue-100">Open Positions</p>
+                    </div>
+                     <div class="relative bg-gradient-to-br from-green-500 to-teal-600 p-6 rounded-xl shadow-lg text-white overflow-hidden">
+                        <i class="fas fa-users absolute -right-4 -bottom-4 text-7xl opacity-20 transform rotate-12"></i>
+                        <p class="text-4xl font-bold">${mockData.industry.postedJobs.reduce((acc, j) => acc + j.applicants, 0)}</p>
+                        <p class="mt-1 font-medium text-green-100">Total Applicants</p>
+                    </div>
+                     <div class="relative bg-gradient-to-br from-yellow-500 to-orange-600 p-6 rounded-xl shadow-lg text-white overflow-hidden">
+                        <i class="fas fa-user-check absolute -right-4 -bottom-4 text-7xl opacity-20 transform rotate-12"></i>
+                        <p class="text-4xl font-bold">5</p>
+                        <p class="mt-1 font-medium text-yellow-100">Pending Verifications</p>
+                    </div>
+                </div>
+                <div class="mt-8 bg-white p-6 rounded-xl shadow-md">
+                    <h3 class="text-xl font-bold mb-4">Recent Internship Postings</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead><tr class="border-b"><th class="py-2">Title</th><th>Applicants</th><th>Status</th></tr></thead>
+                            <tbody>${mockData.industry.postedJobs.map(j => `<tr class="border-b"><td class="py-3">${j.title}</td><td>${j.applicants}</td><td><span class="px-2 py-1 text-sm rounded ${j.status === 'Open' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}">${j.status}</span></td></tr>`).join('')}</tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function renderCompanyProfile() {
+            return `<div class="bg-white p-8 rounded-xl shadow-md">
+                    <h2 class="text-2xl font-bold mb-6">Company Profile</h2>
+                    <p>Form to edit company details, culture, tech stack, etc.</p>
+                    <p class="text-center text-gray-500 italic mt-8">Updates will be added in the actual application,not in this prototype.</p>
+                </div>`;
+        }
+
+        function renderPostInternship() {
+             return `<div class="bg-white p-8 rounded-xl shadow-md max-w-2xl mx-auto">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-2xl font-bold">Post a New Internship</h2>
+                         <button onclick="handleGenerateDescription()" class="bg-gradient-to-r from-green-500 to-teal-600 text-white px-5 py-2 rounded-lg hover:from-green-600 hover:to-teal-700 shadow-md flex items-center gap-2 transition-transform transform hover:scale-105">
+                           ✨ Generate with AI
+                        </button>
+                    </div>
+                    <form onsubmit="event.preventDefault(); handlePostInternship();" class="space-y-4">
+                        <div><label class="block font-medium">Internship Title</label><input type="text" id="internship-title-input" class="w-full p-2 border rounded mt-1" value="Frontend Developer Intern" required></div>
+                        <div><label class="block font-medium">Required Skills (comma-separated)</label><input type="text" id="internship-skills-input" class="w-full p-2 border rounded mt-1" value="React, JavaScript, HTML, CSS"></div>
+                        <div><label class="block font-medium">Job Description</label><textarea id="internship-description-textarea" class="w-full p-2 border rounded mt-1" rows="5"></textarea></div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div><label class="block font-medium">Location</label><input type="text" class="w-full p-2 border rounded mt-1"></div>
+                            <div><label class="block font-medium">Stipend (per month)</label><input type="text" class="w-full p-2 border rounded mt-1"></div>
+                        </div>
+                        <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">Post Internship</button>
+                    </form>
+                </div>`;
+        }
+        
+        function renderInternshipPostedConfirmation() {
+            return `
+                <div class="bg-white p-8 rounded-xl shadow-md max-w-lg mx-auto text-center">
+                    <i class="fas fa-check-circle text-6xl text-green-500 mb-4"></i>
+                    <h2 class="text-3xl font-bold text-gray-800">Internship Posted!</h2>
+                    <p class="text-gray-600 mt-2">Your new internship is now live and visible to students.</p>
+                    <div class="mt-8 flex justify-center gap-4">
+                        <button onclick="switchView('postInternship', document.querySelector('.sidebar-link[data-view=\\'postInternship\\']'))" class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700">
+                            Post Another Internship
+                        </button>
+                        <button onclick="switchView('industryDashboard', document.querySelector('.sidebar-link[data-view=\\'industryDashboard\\']'))" class="bg-gray-200 text-gray-800 px-6 py-2 rounded-lg hover:bg-gray-300">
+                            Go to Dashboard
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderManageApplicants() {
+            return `
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <h3 class="text-xl font-bold mb-4">Applicants for Frontend Developer Intern</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead><tr class="border-b"><th class="py-2">Name</th><th>Skills</th><th>Status</th><th>Actions</th></tr></thead>
+                            <tbody>
+                                ${mockData.industry.applicants.map((a, index) => `
+                                    <tr class="border-b">
+                                        <td class="py-3 font-medium">${a.name}</td>
+                                        <td>${a.skills}</td>
+                                        <td><span class="px-2 py-1 text-sm rounded ${a.status === 'New' ? 'bg-blue-100 text-blue-800' : (a.status === 'Shortlisted' ? 'bg-yellow-100 text-yellow-800' : 'bg-purple-100 text-purple-800')}">${a.status}</span></td>
+                                        <td class="flex items-center gap-3 py-3">
+                                            <button class="text-blue-600 hover:text-blue-800" title="View Profile"><i class="fas fa-eye"></i></button>
+                                            <button class="text-green-600 hover:text-green-800" title="Schedule Interview"><i class="fas fa-calendar-alt"></i></button>
+                                            <button onclick="handleApplicantSummary(${index})" class="text-purple-600 hover:text-purple-800" title="Generate AI Summary">✨</button>
+                                        </td>
+                                    </tr>`).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>`;
+        }
+        
+        function renderMentorVerification() {
+            return `<div class="bg-white p-8 rounded-xl shadow-md">
+                    <h2 class="text-2xl font-bold mb-6">Intern Logbook Verification</h2>
+                    <p class="text-gray-600 mb-4">Entries from your assigned intern, Aarav Sharma.</p>
+                    <div class="space-y-4">
+                        ${mockData.student.logbook.map(entry => `
+                            <div class="border p-4 rounded-lg bg-gray-50 flex justify-between items-center">
+                                <div>
+                                    <p class="font-bold">${entry.date}</p>
+                                    <p class="text-gray-700 mt-1">${entry.tasks}</p>
+                                </div>
+                                ${entry.status !== 'Approved' ? `
+                                <div class="flex gap-2">
+                                    <button class="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600">Approve</button>
+                                    <button class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">Reject</button>
+                                </div>` : `<span class="font-medium text-green-600">Approved</span>`
+                                }
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>`;
+        }
+
+        // FACULTY / ADMIN
+        function renderFacultyDashboard() {
+            return `
+                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="bg-white p-6 rounded-xl shadow-md"><p class="text-gray-500">Total Students</p><p class="text-2xl font-bold">250</p></div>
+                    <div class="bg-white p-6 rounded-xl shadow-md"><p class="text-gray-500">Internships Active</p><p class="text-2xl font-bold">78</p></div>
+                    <div class="bg-white p-6 rounded-xl shadow-md"><p class="text-gray-500">Industry Partners</p><p class="text-2xl font-bold">42</p></div>
+                    <div class="bg-white p-6 rounded-xl shadow-md"><p class="text-gray-500">Pending Approvals</p><p class="text-2xl font-bold">${mockData.faculty.approvals.length}</p></div>
+                </div>
+                 <div class="mt-8 bg-white p-6 rounded-xl shadow-md">
+                    <h3 class="text-xl font-bold mb-4">Program Health Overview</h3>
+                    <p class="text-sm text-gray-500 italic mb-4">This is a sample infographic kept for prototype purpose only.</p>
+                     <!-- Simple Chart Simulation -->
+                     <div class="h-64 bg-gray-100 rounded-lg flex items-end justify-around p-4">
+                        <div class="w-12 bg-blue-400 rounded-t-lg" style="height: 80%" title="IT"></div>
+                        <div class="w-12 bg-green-400 rounded-t-lg" style="height: 60%" title="Finance"></div>
+                        <div class="w-12 bg-yellow-400 rounded-t-lg" style="height: 45%" title="Marketing"></div>
+                        <div class="w-12 bg-purple-400 rounded-t-lg" style="height: 70%" title="Core Eng."></div>
+                     </div>
+                 </div>
+            `;
+        }
+        
+        function renderStudentMonitoring() {
+            return `
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <h3 class="text-xl font-bold mb-4">Student Internship Status</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead><tr class="border-b"><th class="py-2">Student Name</th><th>Company</th><th>Status</th><th>Logbook</th><th>Actions</th></tr></thead>
+                            <tbody>
+                                ${mockData.faculty.students.map(s => `
+                                    <tr class="border-b">
+                                        <td class="py-3 font-medium">${s.name}</td>
+                                        <td>${s.company}</td>
+                                        <td><span class="px-2 py-1 text-sm rounded-full ${s.status === 'Completed' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}">${s.status}</span></td>
+                                        <td>${s.logbook}</td>
+                                        <td class="py-3 flex items-center gap-3">
+                                            <button class="text-blue-600 hover:underline text-sm">View Details</button>
+                                            ${s.status === 'Completed' ? `<button class="text-gray-600 hover:text-gray-900" title="Generate Feedback Draft">✨</button>` : ''}
+                                        </td>
+                                    </tr>`).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>`;
+        }
+
+        function renderInternshipApprovals() {
+            return `
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <h3 class="text-xl font-bold mb-4">Pending Internship Approvals</h3>
+                    <div class="space-y-4">
+                        ${mockData.faculty.approvals.map(a => `
+                            <div class="border p-4 rounded-lg flex justify-between items-center">
+                                <div>
+                                    <p><span class="font-semibold">Student:</span> ${a.student}</p>
+                                    <p><span class="font-semibold">Company:</span> ${a.company} (${a.role})</p>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button class="bg-green-500 text-white px-4 py-1 rounded hover:bg-green-600">Approve</button>
+                                    <button class="bg-red-500 text-white px-4 py-1 rounded hover:bg-red-600">Reject</button>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>`;
+        }
+
+        function renderFacultyReports() {
+             return `<div class="bg-white p-8 rounded-xl shadow-md">
+                    <h2 class="text-2xl font-bold mb-6">Generate Reports</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="border p-4 rounded-lg">
+                            <h3 class="font-semibold">NEP Compliance Report</h3>
+                            <p class="text-sm text-gray-600">Generate a report on internship credits and skill development outcomes.</p>
+                            <button class="mt-2 bg-blue-600 text-white px-3 py-1 rounded text-sm">Generate</button>
+                        </div>
+                         <div class="border p-4 rounded-lg">
+                            <h3 class="font-semibold">Placement Analytics</h3>
+                            <p class="text-sm text-gray-600">View trends on industry sectors, stipends, and PPO conversions.</p>
+                            <button class="mt-2 bg-blue-600 text-white px-3 py-1 rounded text-sm">Generate</button>
+                        </div>
+                    </div>
+                    <p class="text-center text-gray-500 italic mt-8">for prototype purpose only.</p>
+                </div>`;
+        }
+
+        // ALUMNI
+        function renderAlumniDashboard() {
+            return `
+                <div class="bg-white p-8 rounded-xl shadow-md">
+                    <h2 class="text-2xl font-bold mb-6">Welcome, Alumni Mentor!</h2>
+                    <p class="text-gray-600">Thank you for giving back to our student community. Here you can manage your profile and view mentorship requests from students.</p>
+                </div>
+            `;
+        }
+
+        function renderNotifications() {
+            const notifications = mockData.student.notifications;
+            const unreadCount = notifications.filter(n => !n.read).length;
+
+            if (notificationBadge) {
+                notificationBadge.textContent = unreadCount;
+                if(unreadCount === 0) notificationBadge.classList.add('hidden');
+                else notificationBadge.classList.remove('hidden');
             }
 
-            messageOkBtn.addEventListener('click', () => {
-                messageModal.classList.add('hidden');
-            });
+            if (notificationList) {
+                notificationList.innerHTML = notifications.map(n => `
+                    <a href="#" class="flex items-start px-4 py-3 hover:bg-gray-50 ${!n.read ? 'bg-blue-50' : ''}">
+                        <div class="flex-shrink-0 h-8 w-8 rounded-full bg-${n.color}-100 flex items-center justify-center mr-3">
+                            <i class="fas ${n.icon} text-${n.color}-500"></i>
+                        </div>
+                        <div class="w-full">
+                            <p class="text-gray-600 text-sm">${n.text}</p>
+                            <p class="text-xs text-gray-400 mt-1">${n.time}</p>
+                        </div>
+                    </a>
+                `).join('');
+            }
+        }
+        
+        // Mobile Menu Toggle
+        document.getElementById('menu-button').addEventListener('click', () => {
+            document.getElementById('sidebar').classList.toggle('-translate-x-full');
         });
-    </script>
 
+        // Notification Dropdown Toggle
+        notificationButton.addEventListener('click', (event) => {
+            event.stopPropagation();
+            notificationPanel.classList.toggle('hidden');
+        });
+
+        document.addEventListener('click', (event) => {
+            if (!notificationPanel.contains(event.target) && !notificationButton.contains(event.target)) {
+                notificationPanel.classList.add('hidden');
+            }
+        });
+
+    </script>
 </body>
 </html>
+
+
+
+
+
+
+
 
